@@ -1,1 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* Importing Bootstrap SCSS file. */
+@import 'bootstrap/scss/bootstrap';
+@import '@fortawesome/fontawesome-free/scss/fontawesome';
+@import '@fortawesome/fontawesome-free/scss/solid';
+@import '@fortawesome/fontawesome-free/scss/brands';
+:root{
+    background-color: #ebf2f7;
+}
+
+.bg-viji{
+    background-color: #00b53f;
+    color: #f3f3f3;
+    box-shadow: 1px 1px 4px rgba(80,114,125,.4);
+}
+.color-viji{
+    color: #00b53f;
+}
+a{
+    text-decoration: none;
+}

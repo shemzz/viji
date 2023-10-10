@@ -1,0 +1,23 @@
+<nav class="navbar navbar-expand-lg bg-viji">
+    <div class="container-fluid mx-2">
+      <a class="navbar-brand" href="#">VijiPay</a>
+      
+       <div class="justify-content-between align-items-center">
+        <a routerLink="/transactions" class="menu-icon">
+          <i class="fa-solid fa-list-check fa-xl"></i>
+        </a>
+        <a routerLink="/notifications" class="menu-icon">
+          <i class="fa-solid fa-bell fa-xl"></i>
+        </a>
+
+        <!-- show icon if logged in -->
+        <!-- <a href="/profile" class="menu-icon">
+          <i class="fa-solid fa-user fa-xl"></i>
+        </a> -->
+        <a href="/auth/login" class="menu-icon">
+          <small> Login | Register</small>
+         </a>
+        <button (click)="create()" class="btn btn-warning btn">Buy</button>
+       </div>
+    </div>
+  </nav>
