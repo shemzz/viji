@@ -1,1 +1,45 @@
-<p>register works!</p>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="mt-5 col-md-4 ">
+            <form class="card p-3">
+                <h4 class="my-4 text-center">Register</h4>
+                <div class="row justify-content-center mb-3">
+                    <div class="col-sm-10">
+                      <label for="name" class="">Name</label>
+                    <input type="text" class="form-control" id="name">
+                  </div>
+                </div>
+                <div class="row justify-content-center mb-3">
+                    <div class="col-sm-10">
+                      <label for="phone" class="">Phone Number</label>
+                    <input type="phone" class="form-control" id="phone">
+                  </div>
+                </div>
+                <div class="row justify-content-center mb-3">
+                    <div class="col-sm-10">
+                      <label for="email" class="">Email</label>
+                    <input type="email" class="form-control" autocomplete="email" id="email">
+                  </div>
+                </div>
+                <div class="row justify-content-center mb-3">
+                    <div class="col-sm-10">
+                      <label for="pasword" class="">Password</label>
+                    <input type="password" class="form-control" id="password">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-sm-10 offset-sm-2">
+                    <div class="form-check">
+                        <label class="form-check-label small" for="gridCheck1">
+                            I agree to the <a routerLink="/terms">terms and conditions</a>
+                        </label>
+                        <input class="form-check-input" type="checkbox" id="gridCheck1">
+                    </div>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-viji">Register</button>
+                <p class="small mt-3 text-center">Already have an account? <a routerLink="/auth/login">Login Here</a></p>
+              </form>
+        </div>
+    </div>
+</div>
