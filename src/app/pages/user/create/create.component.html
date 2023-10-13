@@ -1,1 +1,105 @@
-<p>create works!</p>
+
+    <div class="container">
+        <div *ngIf="!isProductFullyLoaded; else productLoaded" class="row">
+           <div class="col-12 my-2 py-3 bg-viji">
+            <p class="fs-5 text-center">Seen a product you want to buy on <span class="font-monospace fw-bold">Jiji.ng</span>?</p>
+
+                <form #getJijiProduct="ngForm" (ngSubmit)="getProductFromJiji()" class="d-flex flex-column align-items-center" role="search">
+                    <input class="form-control me-2" [(ngModel)]="productUrl" name="productUrl" required type="search" placeholder="copy the link from jiji & paste here" aria-label="Search">
+                    <div class="w-40 my-2">
+                        <button class="btn btn-light" type="submit">Get Product</button>
+                    </div>
+                </form>
+            </div>
+            <div *ngIf="productFetched && (!product?.seller.phone || message)">
+                <p class="text-center"><span *ngIf="message?.one" class="text-danger">{{message.one}} for <br/></span> <span class="fw-bold fs-5">{{product?.advert.title}}</span></p>
+                <div class="d-flex">
+                  <img [src]="product?.advert.images_data.thumbnails[0].url" [alt]="product?.advert.title" class="img-responsive mx-auto" height="150px">
+                </div>
+                <p *ngIf="message?.two" class="text-center small text-secondary">{{message.two}}</p>
+                <p *ngIf="message?.three" class="text-center small text-secondary">{{message.three}}</p>
+                <form *ngIf="message?.three" #sellerPhoneNumber="ngForm" (ngSubmit)="updateSellerPhone()" class="d-flex flex-column align-items-center">
+                  <input class="form-control me-2 phone_number" [(ngModel)]="sellerPhone" name="sellerPhone" required type="phone" placeholder="paste seller's phone number here" aria-label="Search">
+                  <div class="w-40 my-2">
+                    <button class="btn btn-viji btn-sm" type="submit">Save Number</button>
+                  </div>
+                </form>
+                <div *ngIf="product.seller.phone"  class="w-40 my-5 d-flex flex-column justify-content-center">
+                  <p class="text-success text-center">Product is fully loaded!</p>
+                    <button class="btn btn-viji btn-sm" (click)="showProductTobeEscrowed()" type="button">Continue</button>
+                  </div>
+              </div>
+        </div>
+        <ng-template #productLoaded>
+          <div class="container bg-white mt-5">
+              <div class="row">
+                <h3 class="text-center">
+                  {{product.advert.title}}
+                </h3>
+                <div class="col-md-6">
+                  <h4>Seller: <span class="fw-bold">{{product.seller.name}}</span></h4>
+                </div>
+                <div class="col-md-6">
+                  <h4>Phone: <span>{{product.seller.phone}}</span></h4>
+                </div>
+                <div class="col-md-3">
+                  Category: {{product.advert.category_name}}
+                </div>
+                <div class="col-md-3">
+                  {{product.advert.attrs[0].value}}
+                </div>
+                <div class="col-md-3">
+                  {{product.advert.attrs[1].value}}
+                </div>
+                <div class="col-12">
+                  Description: {{product.advert.description}}
+                </div>
+              </div>
+
+            <!-- <form class="row g-3">
+              <div class="col-md-6">
+                <label for="inputEmail4" class="form-label">Product Name</label>
+                <p>{{product.advert.title}}</p>
+              </div>
+              <div class="col-md-3 col-sm-6">
+                <label for="inputPassword4" class="form-label">Price</label>
+                <p>{{product.advert.price.value}}</p>
+              </div>
+              <div class="col-md-3 col-sm-6">
+                <label for="inputAddress" class="form-label">Product's Region</label>
+                <p>{{product.advert.region_text}}</p>
+              </div>
+              <div class="col-sm-6">
+                <label for="inputAddress2" class="form-label">Seller Name</label>
+                {{product.seller.name}}
+              </div>
+              <div class="col-sm-6">
+                <label for="inputCity" class="form-label">Phone Number</label>
+                {{product.seller.phone}}
+              </div>
+              <div class="col-md-4">
+                <label for="inputState" class="form-label">State</label>
+                <select id="inputState" class="form-select">
+                  <option selected>Choose...</option>
+                  <option>...</option>
+                </select>
+              </div>
+              <div class="col-md-2">
+                <label for="inputZip" class="form-label">Zip</label>
+                <input type="text" class="form-control" id="inputZip">
+              </div>
+              <div class="col-12">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="gridCheck">
+                  <label class="form-check-label" for="gridCheck">
+                    Check me out
+                  </label>
+                </div>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary">Sign in</button>
+              </div>
+            </form> -->
+          </div>
+        </ng-template>
+    </div>
