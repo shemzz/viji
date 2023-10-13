@@ -6,3 +6,17 @@ text-align: center;
     font-size: 0.8rem;
     text-align: center;
 }
+.loaded-product {
+    p{
+        margin: 0px;
+        color: #00b53f;
+    }
+}
+.item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+div {
+    margin-bottom: 5px;
+}

@@ -31,75 +31,77 @@
               </div>
         </div>
         <ng-template #productLoaded>
-          <div class="container bg-white mt-5">
+          <div class="d-flex justify-content-start mt-3">
+            <button class="btn btn-sm bg-secondary rounded" (click)="showProductTobeEscrowed()"><i class="fa-solid fa-arrow-left"></i> back</button>
+          </div>
+          <div class="container rounded loaded-product bg-white mt-3">
               <div class="row">
-                <h3 class="text-center">
+                <div class="col-12">
+                <p class="text-center">Product Name:</p>
+                <h6 class="text-center">
                   {{product.advert.title}}
-                </h3>
-                <div class="col-md-6">
-                  <h4>Seller: <span class="fw-bold">{{product.seller.name}}</span></h4>
-                </div>
-                <div class="col-md-6">
-                  <h4>Phone: <span>{{product.seller.phone}}</span></h4>
-                </div>
-                <div class="col-md-3">
-                  Category: {{product.advert.category_name}}
-                </div>
-                <div class="col-md-3">
-                  {{product.advert.attrs[0].value}}
-                </div>
-                <div class="col-md-3">
-                  {{product.advert.attrs[1].value}}
+                </h6>
                 </div>
                 <div class="col-12">
-                  Description: {{product.advert.description}}
-                </div>
+                  <p class="text-center">Seller:</p>
+                  <h6 class="text-center">
+                    Name: {{product.seller.name}}, {{product.seller.phone}}
+                  </h6>
+                  </div>
+                  <div class="col-12">
+                    <p class="text-center">Product Description:</p>
+                    <h6 class="text-center">
+                      {{product.advert.category_name}} > {{product.advert.attrs[0].value}} > {{product.advert.attrs[1].value}}
+                    </h6>
+                    <h6 class="text-center">{{product.advert.description}}</h6>
+                    </div>
+                    <div class="col-12">
+                      <p class="text-center">Price:</p>
+                      <h6 class="text-center">
+                        {{ product.advert.price.value | currency: '&#8358;' }}
+                      </h6>
+                      <h6 *ngIf="negotiatedPrice" class="text-center color-viji">
+                        <small>New Price: </small> {{ negotiatedPrice | currency: '&#8358;' }}
+                      </h6>
+                      <div class="form-check item">
+                        <label class="form-check-label" for="gridCheck">
+                          Did you negotiate this Price?
+                        </label>
+                        <input class="form-check-input m-2" type="checkbox" id="gridCheck" [(ngModel)]="negotiated">
+                      </div>
+                      <div *ngIf="negotiated" class="form-group d-flex justify-content-center">
+                        <input type="number" class="form-control m-2" placeholder="Enter Negotiated Price" id="negotiatedPrice" [(ngModel)]="negotiatedPrice">
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <p class="text-center">Product Location:</p>
+                      <h6 class="text-center">
+                        {{product.advert.region_text}}
+                      </h6>
+                      </div>
+                    <div class="col-12">
+                      <p class="text-center">Will this Transaction Require Delivery?</p>
+                      <div class="form-check item">
+                        <label class="form-check-label" for="gridCheck">
+                          If Yes, Click here!
+                        </label>
+                        <input class="form-check-input m-2" type="checkbox" id="gridCheck" [(ngModel)]="requireDelivery">
+                      </div>
+                    </div>
+                    <div *ngIf="requireDelivery" class="col-12">
+                      <p class="text-center">Who is paying?</p>
+                      <div class="item w-70">
+                          <select id="inputState" class="form-select" [(ngModel)]="whoPaysForDelivery">
+                            <option value="" selected>Choose...</option>
+                            <option value="buyer">Myself</option>
+                            <option value="seller">{{product.seller.name}}</option>
+                          </select>
+                      </div>
+                    </div>
+                    <div class="col-12 item mt-2">
+                      <button [disabled]="!requireDelivery || whoPaysForDelivery === ''" type="button" class="btn bg-viji" (click)="createEscrowTransaction()">Create Escrow</button>
+                      </div>
               </div>
-
-            <!-- <form class="row g-3">
-              <div class="col-md-6">
-                <label for="inputEmail4" class="form-label">Product Name</label>
-                <p>{{product.advert.title}}</p>
-              </div>
-              <div class="col-md-3 col-sm-6">
-                <label for="inputPassword4" class="form-label">Price</label>
-                <p>{{product.advert.price.value}}</p>
-              </div>
-              <div class="col-md-3 col-sm-6">
-                <label for="inputAddress" class="form-label">Product's Region</label>
-                <p>{{product.advert.region_text}}</p>
-              </div>
-              <div class="col-sm-6">
-                <label for="inputAddress2" class="form-label">Seller Name</label>
-                {{product.seller.name}}
-              </div>
-              <div class="col-sm-6">
-                <label for="inputCity" class="form-label">Phone Number</label>
-                {{product.seller.phone}}
-              </div>
-              <div class="col-md-4">
-                <label for="inputState" class="form-label">State</label>
-                <select id="inputState" class="form-select">
-                  <option selected>Choose...</option>
-                  <option>...</option>
-                </select>
-              </div>
-              <div class="col-md-2">
-                <label for="inputZip" class="form-label">Zip</label>
-                <input type="text" class="form-control" id="inputZip">
-              </div>
-              <div class="col-12">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="gridCheck">
-                  <label class="form-check-label" for="gridCheck">
-                    Check me out
-                  </label>
-                </div>
-              </div>
-              <div class="col-12">
-                <button type="submit" class="btn btn-primary">Sign in</button>
-              </div>
-            </form> -->
           </div>
         </ng-template>
     </div>

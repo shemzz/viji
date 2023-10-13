@@ -6,7 +6,7 @@ const url = 'http://localhost:4343/api/v1/';
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
-    'Authorization': 'Bearer ' + localStorage.getItem("token")
+    // 'Authorization': 'Bearer ' + sessionStorage.getItem("token")
   })
 }
 
@@ -18,5 +18,8 @@ export class TransactionService {
 
   getProductFromJiji(mainUrl: string): Observable<any> {
     return this.http.post(`${url}getProductInfo`, {mainUrl}, httpOptions);
+  }
+  createEscrow(prod: {}, tx_details: {}): Observable<any> {
+    return this.http.post(`${url}create`, {prod, tx_details}, httpOptions)
   }
 }
