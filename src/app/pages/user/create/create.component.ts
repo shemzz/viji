@@ -27,9 +27,10 @@ export class CreateComponent implements OnInit {
   negotiatedPrice!: number;
   requireDelivery: boolean = false;
   whoPaysForDelivery: string = '';
+  deliveryRegion: string = '';
   txId!: number;
   
-  constructor(private transaction: TransactionService, private router: Router) { }
+  constructor(private transactionService: TransactionService, private router: Router) { }
   
   ngOnInit(): void {
       this.getProductFromJiji()
@@ -38,7 +39,7 @@ export class CreateComponent implements OnInit {
   getProductFromJiji() {
     this.productFetched = false;
     this.message = {};
-    this.transaction.getProductFromJiji(this.productUrl).subscribe({
+    this.transactionService.getProductFromJiji(this.productUrl).subscribe({
       next: data => {
         this.productFetched = true;
         this.message = data.message;
@@ -103,10 +104,11 @@ export class CreateComponent implements OnInit {
       escrow_fee: this.calculateEscrowFee(),
       price_negotiated: this.negotiated,
       require_delivery: this.requireDelivery,
-      who_pays_for_delivery: this.requireDelivery ? this.whoPaysForDelivery : ''
+      who_pays_for_delivery: this.requireDelivery ? this.whoPaysForDelivery : '',
+      delivery_region: this.deliveryRegion,
     }
 
-    this.transaction.createEscrow(this.product, transaction).subscribe({
+    this.transactionService.createEscrow(this.product, transaction).subscribe({
       next: data => {
         console.log(data.message)
         this.txId = data.id;
@@ -116,7 +118,7 @@ export class CreateComponent implements OnInit {
       },
       complete: () => {
         setTimeout(() => {
-          this.router.navigate([`/transactions/${this.txId}`]);
+          this.router.navigate([`/transaction/${this.txId}`]);
         }, 2000);
       }
     })

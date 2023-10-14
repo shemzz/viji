@@ -1,1 +1,75 @@
-<p>view-transaction works!</p>
+<div>
+   <h4 *ngIf="!transaction"> Loading Transaction</h4>
+    <div class="container rounded loaded-product bg-white mt-4">
+        <div *ngIf="transaction" class="row loaded_product">
+            <div class="col-12">
+            <p>Product Name:</p>
+            <h6>
+              {{transaction.product.advert.title}}
+            </h6>
+            </div>
+            <div class="col-12">
+              <p>Seller:</p>
+              <h6>
+                Name: {{transaction.product.seller.name}}, {{transaction.product.seller.phone}}
+              </h6>
+              </div>
+
+              <div class="col-12">
+                <p>Product Description:</p>
+                <h6>
+                  {{transaction.product.advert.category_name}} > {{transaction.product.advert.attrs[0].value}} > {{transaction.product.advert.attrs[1].value}}
+                </h6>
+                <h6>{{transaction.product.advert.description}}</h6>
+                </div>
+                <div class="col-12">
+                  <p>Price:</p>
+                  <h6>
+                    {{ transaction.transaction_details.amount | currency: '&#8358;' }}
+                  </h6>
+                  <h6 class="color-viji">
+                    <small>Buyer Protection Fee: </small> {{ transaction.transaction_details.escrow_fee | currency: '&#8358;' }}
+                  </h6>
+                </div>
+                <div class="col-12">
+                  <p>Product Location:</p>
+                  <h6>
+                    {{transaction.product.advert.region_text}}
+                  </h6>
+                  </div>
+                <div class="col-12">
+                  <p>Delivery Details</p>
+                  <h6>This product is at <strong>{{transaction.product.advert.region_text}}</strong> and will be delivered to you at <strong>{{transaction.transaction_details.delivery_region}}</strong> and delivery cost will be paid by {{transaction.transaction_details.who_pays_for_delivery}}</h6>
+                </div>
+
+                <div class="col-12">
+                    <p>Terms</p>
+                    <div class="form-check item">
+                        <input class="form-check-input m-2" type="checkbox" id="gridCheck" [(ngModel)]="agreeToTermsOfUse">
+                        <label class="form-check-label" for="gridCheck">
+                          I agree to the terms of use
+                        </label>
+                      </div>
+                    <h6 class="terms">When you pay into our Secure holding Escrow account, we will not release the funds to the seller until you have received the item as described <br/> <small class="text-info"><a href="/terms">Read the full terms of use here</a></small></h6>
+                  </div>
+  
+                <div class="col-12 item mt-2">
+                    <button
+          angular4-paystack
+          [disabled]="!agreeToTermsOfUse"
+          [email]="user.email"
+          [amount]="amountToPay()"
+          [ref]="reference"
+          class="btn bg-viji btn-lg btn-rounded centered"
+          [metadata]="metadata"
+          (paymentInit)="initializePayment()"
+          (onClose)="cancelPayment(reference)"
+          (callback)="checkPaymentStatus(reference)"
+        >
+          Pay into Escrow
+        </button>
+                  <button type="button" class="btn bg-viji" (click)="initializePayment()">Pay into Escrow</button>
+                  </div>
+          </div>
+    </div>
+  </div>

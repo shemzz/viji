@@ -98,6 +98,10 @@
                           </select>
                       </div>
                     </div>
+                    <div *ngIf="requireDelivery" class="col-12">
+                      <p class="text-center">Delivery Location</p>
+                      <input type="text" class="form-control m-2" placeholder="E.g: Wuse, Abuja" id="negotiatedPrice" [(ngModel)]="deliveryRegion">
+                    </div>
                     <div class="col-12">
                       <p class="text-center">Buyer Protection Fee:</p>
                       <h6 class="text-center">
