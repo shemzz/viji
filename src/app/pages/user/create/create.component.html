@@ -98,8 +98,14 @@
                           </select>
                       </div>
                     </div>
+                    <div class="col-12">
+                      <p class="text-center">Buyer Protection Fee:</p>
+                      <h6 class="text-center">
+                        {{calculateEscrowFee() | currency: '&#8358;' }}
+                      </h6>
+                      </div>
                     <div class="col-12 item mt-2">
-                      <button [disabled]="!requireDelivery || whoPaysForDelivery === ''" type="button" class="btn bg-viji" (click)="createEscrowTransaction()">Create Escrow</button>
+                      <button [disabled]="requireDelivery && whoPaysForDelivery === ''" type="button" class="btn bg-viji" (click)="createEscrowTransaction()">Create Escrow</button>
                       </div>
               </div>
           </div>

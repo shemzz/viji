@@ -5,11 +5,12 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MessageInterface } from 'src/app/interface/message.interface';
 import { NgxCurrencyDirective } from 'ngx-currency';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-create',
   standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule, NgxCurrencyDirective],
+  imports: [CommonModule, FormsModule, HttpClientModule, NgxCurrencyDirective, RouterModule],
   providers:[TransactionService],
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.scss']
@@ -26,8 +27,9 @@ export class CreateComponent implements OnInit {
   negotiatedPrice!: number;
   requireDelivery: boolean = false;
   whoPaysForDelivery: string = '';
+  txId!: number;
   
-  constructor(private transaction: TransactionService) { }
+  constructor(private transaction: TransactionService, private router: Router) { }
   
   ngOnInit(): void {
       this.getProductFromJiji()
@@ -75,25 +77,49 @@ export class CreateComponent implements OnInit {
 
   calculateEscrowFee() {
     // calculate and display escrow fee here
-  }
-  
-  createEscrowTransaction() {
-    const transaction = {
-      amount: this.negotiatedPrice ? this.negotiatedPrice : this.product.advert.price.value
+    if (this.negotiated && this.negotiatedPrice) {
+      if (this.negotiatedPrice >= 100000) {
+        return 5000;
+      } else if (this.negotiatedPrice < 10000) {
+        return 500;
+      } else {
+        return this.negotiatedPrice * 0.05
+      }
+    } else {
+      if (this.product.advert.price.value >= 100000) {
+        return 5000;
+      } else {
+        return this.product.advert.price.value * 0.05
+      }
     }
 
-    console.log(transaction)
-    // this.transaction.createEscrow({}, {}).subscribe({
-    //   next: data => {
-    //     console.log(data.message)
-    //   },
-    //   error:err => {
-    //       console.error(err)
-    //   },
-    //   complete: () => {
-    //     console.log('completed! you can now navigate to transactions')
-    //   }
-    // })
+  }
+
+  createEscrowTransaction() {
+    const transaction = {
+      buyer_id: 1,
+      produc_amount: this.product.advert.price.value,
+      amount: this.negotiatedPrice ? this.negotiatedPrice : this.product.advert.price.value,
+      escrow_fee: this.calculateEscrowFee(),
+      price_negotiated: this.negotiated,
+      require_delivery: this.requireDelivery,
+      who_pays_for_delivery: this.requireDelivery ? this.whoPaysForDelivery : ''
+    }
+
+    this.transaction.createEscrow(this.product, transaction).subscribe({
+      next: data => {
+        console.log(data.message)
+        this.txId = data.id;
+      },
+      error:err => {
+          console.error(err)
+      },
+      complete: () => {
+        setTimeout(() => {
+          this.router.navigate([`/transactions/${this.txId}`]);
+        }, 2000);
+      }
+    })
     }
   
 }
