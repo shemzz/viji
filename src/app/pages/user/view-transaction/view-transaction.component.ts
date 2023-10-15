@@ -4,23 +4,21 @@ import { ActivatedRoute } from '@angular/router';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { Angular4PaystackModule } from 'angular4-paystack';
 import { UserInterface } from 'src/app/interface/user.interface';
-import { PaymentService } from 'src/app/services/payment.service';
+import { PaymentButtonComponent } from 'src/app/components/payment-button/payment-button.component';
 
 @Component({
   selector: 'app-view-transaction',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, FormsModule, Angular4PaystackModule],
-  providers: [TransactionService, PaymentService],
+  imports: [CommonModule, HttpClientModule, FormsModule, PaymentButtonComponent],
+  providers: [TransactionService],
   templateUrl: './view-transaction.component.html',
   styleUrls: ['./view-transaction.component.scss']
 })
 export class ViewTransactionComponent implements OnInit {
 agreeToTermsOfUse: boolean = false;
   transactionId!: number;
-  reference!: any;
-  metadata: {} = {};
+
   transaction: any;
   user: UserInterface = {
     name: 'Shemang',
@@ -29,7 +27,7 @@ agreeToTermsOfUse: boolean = false;
   }
 
 
-constructor(private route: ActivatedRoute, private transactionService: TransactionService, private paymentService: PaymentService){}
+constructor(private route: ActivatedRoute, private transactionService: TransactionService){}
 
 ngOnInit(): void {
   this.extractIdFromRoute();
@@ -58,48 +56,5 @@ viewTransaction() {
   amountToPay() {
     return this.transaction?.transaction_details.amount + this.transaction.transaction_details.escrow_fee
   }
-
-  initializePayment() {
-    // generate Reference
-    const createReference = this.paymentService.createPaymentReference()
-    //save the transaction  payment to the DB
-    const data = {
-      reference: createReference,
-      totalCollected: this.amountToPay(),
-      amount: this.transaction?.transaction_details.amount,
-      fee: this.transaction.transaction_details.escrow_fee,
-      buyerId: 1,
-      sellerId: 2,
-      transactionId: 5,
-      success: false
-    }
-
-    this.paymentService.savePaymentToDB(data).subscribe({
-      next: res => {
-        this.reference = res.ref
-        console.log(this.reference)
-      },
-      error: err => {
-        console.error(err);
-      }
-    })
-    // create metadata
-    this.metadata = {
-      product: this.transaction.product.advert.title,
-      ref: this.reference
-    }
-  }
-  
-  cancelPayment(reference: string) {
-    //delete the transaction with reference from DB because payment was cancelled
-  }
-  
-  checkPaymentStatus(ref: string) {
-    // this.router.navigate([`/transactions/payment/validate`], { queryParams: { ref: ref } })
-    
-    }
-makePayment() {
-throw new Error('Method not implemented.');
-}
   
 }

@@ -1,7 +1,7 @@
 export interface PaymentDetailsInterface
 {
     reference: string,
-    totalCollected: number,
+    totalCollected: string,
     amount: number,
     fee: number,
     sellerId: number,
