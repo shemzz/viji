@@ -1,0 +1,45 @@
+<div>
+    <h4 *ngIf="!transaction"> Loading Transaction</h4>
+     <div class="container rounded loaded-product bg-white mt-4">
+         <div *ngIf="transaction" class="row loaded_product">
+             <div class="col-12">
+             <p>Product Name:</p>
+             <h6>
+               {{transaction.product.advert.title}}
+             </h6>
+             </div>
+ 
+               <div class="col-12">
+                 <p>Product Description:</p>
+                 <h6>
+                   {{transaction.product.advert.category_name}} > {{transaction.product.advert.attrs[0].value}} > {{transaction.product.advert.attrs[1].value}}
+                 </h6>
+                 <h6>{{transaction.product.advert.description}}</h6>
+                 </div>
+                 <div class="col-12">
+                   <p>Price:</p>
+                   <h6>
+                     {{ transaction.transaction_details.amount | currency: '&#8358;' }}
+                   </h6>
+                   <h6 *ngIf="transaction.status === 'created'" class="color-viji"  >
+                     <small>Buyer Protection Fee: </small> {{ transaction.transaction_details.escrow_fee | currency: '&#8358;' }}
+                   </h6>
+                 </div>
+                 <div class="col-12">
+                   <p>Product Location:</p>
+                   <h6>
+                     {{transaction.product.advert.region_text}}
+                   </h6>
+                   </div>
+                 <div *ngIf="transaction.transaction_details.require_delivery" class="col-12">
+                   <p>Delivery Details</p>
+                   <h6>This product is at <strong>{{transaction.product.advert.region_text}}</strong> and will be delivered to buyer at <strong>{{transaction.transaction_details.delivery_region}}</strong> and delivery cost will be paid by {{transaction.transaction_details.who_pays_for_delivery}}</h6>
+                 </div>
+ 
+                   <p *ngIf="transaction.status === 'completed'" class="my-5">This Transaction is Marked Complete <br /> 
+                   <span class="text-body-secondary">Payment has been sent to your account</span>
+                   </p>
+ 
+           </div>
+     </div>
+   </div>

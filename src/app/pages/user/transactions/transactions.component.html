@@ -9,7 +9,7 @@
           <div class="list-group">
             <ng-container *ngFor="let transaction of transactions">
               <ng-container *ngIf="transaction.status === 'created' || transaction.status === 'started' || transaction.status === 'pending' else noActive">
-                <a [routerLink]="'/transaction/'+transaction.id" class="list-group-item list-group-item-action mb-2">
+                <a [routerLink]="isSeller ? '/seller-transaction/' + transaction.id : '/transaction/' + transaction.id" class="list-group-item list-group-item-action mb-2">
                   <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">{{transaction.transaction_details.amount | currency: '&#8358;' }}</h5>
                     <small class="text-body-secondary">{{transaction.updatedAt | date}}</small>
@@ -57,7 +57,7 @@
           <div class="list-group">
             <ng-container *ngFor="let transaction of transactions">
               <ng-container *ngIf="transaction.status === 'dispute' else noDispute">
-                <a [routerLink]="'/transaction/'+transaction.id" class="list-group-item list-group-item-action mb-2">
+                <a [routerLink]="isSeller ? '/seller-transaction/' + transaction.id : '/transaction/' + transaction.id" class="list-group-item list-group-item-action mb-2">
                   <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">{{transaction.transaction_details.amount | currency: '&#8358;' }}</h5>
                     <small class="text-body-secondary">{{transaction.updatedAt | date}}</small>
