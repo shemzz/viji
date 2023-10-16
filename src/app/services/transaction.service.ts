@@ -19,7 +19,13 @@ export class TransactionService {
   createEscrow(prod: {}, tx_details: {}): Observable<any> {
     return this.http.post(`${url}create`, { prod, tx_details }, httpOptions);
   }
+
   getTransactionById(id: number): Observable<any>{
     return this.http.get(`${url}transaction/${id}`, httpOptions);
+  }
+
+  updateTransaction(status: {}, id: string): Observable<any> {
+    console.log(status, id)
+    return this.http.put(`${url}update/${id}`, status, httpOptions);
   }
 }

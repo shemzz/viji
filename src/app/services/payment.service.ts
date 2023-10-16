@@ -22,4 +22,7 @@ export class PaymentService {
   savePaymentToDB(data: PaymentDetailsInterface): Observable<any> {
     return this.http.post(`${url}savepayment`, {data}, httpOptions)
   }
+  validatePaymentStatus(ref: string): Observable<any>{
+    return this.http.post(`${url}paymentstatus`, {ref: ref}, httpOptions)
+  }
 }

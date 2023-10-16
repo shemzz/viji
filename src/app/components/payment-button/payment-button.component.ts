@@ -4,6 +4,7 @@ import { UserInterface } from 'src/app/interface/user.interface';
 import { PaymentService } from 'src/app/services/payment.service';
 import { Angular4PaystackModule } from 'angular4-paystack';
 import { HttpClientModule } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-payment-button',
@@ -17,7 +18,7 @@ export class PaymentButtonComponent  implements OnInit{
   @Input() transaction: any;
   @Input() terms: any;
   @Input() amount: number = 0;
-  amt: string = '';
+  amt: number = 0;
   agreeToTermsOfUse: boolean = false;
   transactionId!: number;
   reference!: any;
@@ -29,10 +30,10 @@ export class PaymentButtonComponent  implements OnInit{
   }
 
 
-constructor(private paymentService: PaymentService){}
+constructor(private paymentService: PaymentService, private router: Router){}
   
   ngOnInit(): void {
-    this.amt = this.amount+'00'
+    this.amt = parseInt(this.amount + '00')
     this.saveTransaction();
   }
   
@@ -41,13 +42,13 @@ constructor(private paymentService: PaymentService){}
     const createReference = this.paymentService.createPaymentReference()
     
     const data = {
-      reference: this.reference,
+      reference: createReference,
       totalCollected: this.amt,
       amount: this.transaction?.transaction_details.amount,
       fee: this.transaction.transaction_details.escrow_fee,
       buyerId: 1,
       sellerId: 2,
-      transactionId: 5,
+      transactionId: this.transaction.id,
       success: false
     }
   
@@ -71,7 +72,7 @@ constructor(private paymentService: PaymentService){}
     this.metadata = {
       product: this.transaction.product.advert.title,
       ref: this.reference,
-      amount: this.amt,
+      amount: this.amount,
     }
   }
   
@@ -82,7 +83,7 @@ constructor(private paymentService: PaymentService){}
   }
   
   checkPaymentStatus(ref: string) {
-    // this.router.navigate([`/transactions/payment/validate`], { queryParams: { ref: ref } })
+    this.router.navigate([`/transaction/${this.transaction.id}/payment/validate`], { queryParams: { ref: ref } })
     
     }
 makePayment() {

@@ -10,6 +10,7 @@ const routes: Routes = [
   { path: 'create', loadComponent: () => import('./pages/user/create/create.component').then(m => m.CreateComponent) },
   {path: 'transactions', loadComponent: ()=> import('./pages/user/transactions/transactions.component').then(m=>m.TransactionsComponent)},
   { path: 'transaction/:id', loadComponent: () => import('./pages/user/view-transaction/view-transaction.component').then(m => m.ViewTransactionComponent) },
+  { path: 'transaction/:id/payment/validate', loadComponent: () => import('./pages/validate-payment/validate-payment.component').then(m => m.ValidatePaymentComponent) },
   { path: 'auth/login', loadComponent: () => import('./pages/auth/login/login.component').then(m => m.LoginComponent) },
   { path: 'auth/register', loadComponent: () => import('./pages/auth/register/register.component').then(m => m.RegisterComponent) },
   {path: '**', loadComponent: ()=> import('./pages/not-found/not-found.component').then(m=>m.NotFoundComponent)},

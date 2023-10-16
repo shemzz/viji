@@ -1,0 +1,31 @@
+<div class="row justify-content-center">
+    <div class="col-md-10" *ngIf="loading; else done">
+        <div class="card card-icon-bg card-icon-bg-primary o-hidden mb-4">
+          <div class="card-body text-center mt-4 d-flex flex-column justify-content-center align-items-center">
+                <div class="spinner-bubble spinner-bubble-info my-2"></div>
+              <p class="text-muted my-4 text-24 mb-0">{{status}}</p>
+              <p class="lead color-viji my-2">{{message}}</p>
+
+
+          </div>
+        </div>
+        
+      </div>
+
+      <ng-template #done>
+        <div class="col-md-10 mt-5" else>
+            <div class="card card-icon-bg card-icon-bg-primary o-hidden mb-4 mx-3">
+              <div class="card-body text-center mt-4 d-flex flex-column justify-content-center align-items-center">
+                    <i class="i-Yes text-success my-2"></i>
+                  <p class="text-muted my-4 mb-0">{{item.product.advert.title}}</p>
+                  <p class="lead text-primary text-18">{{payment.amount | currency: '&#8358;'}}</p>
+                  <p class="text-muted text-24 mb-0">Payment: <span class="color-viji">{{payment.status}}</span></p>
+
+                  <p class="lead small text-12 text-primary my-2 mt-4"><small>Redirecting you back to the transaction details. If not automatically redirected, <br /> <a href="#">click here</a></small></p>
+    
+              </div>
+            </div>
+          </div>
+      </ng-template>
+</div>
+
