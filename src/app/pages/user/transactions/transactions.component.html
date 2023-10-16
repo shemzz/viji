@@ -1,8 +1,60 @@
 <div class="container text-center">
-    <div class="row row-cols-3">
-      <div class="col">Column</div>
-      <div class="col">Column</div>
-      <div class="col">Column</div>
-      <div class="col">Column</div>
-    </div>
+  <h4 class="mt-3"> {{!transactionsLoaded ? 'Loading Transactions' : 'Transactions'}}</h4>
+  <p *ngIf="transactionsLoaded && transactions?.length <= 0">You do not have any Transactions. </p>
+  <p>{{message}}</p>
+  <div *ngIf="transactions?.length > 0">
+    <ul  ngbNav #nav="ngbNav" [(activeId)]="active" [destroyOnHide]="false" class="nav-tabs justify-content-center">
+      <li [ngbNavItem]="1" [destroyOnHide]="true">
+        <button ngbNavLink>Active</button>
+        <ng-template ngbNavContent>
+          <div class="list-group">
+           
+            <a href="#" class="list-group-item list-group-item-action mb-2">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">List group item heading...</h5>
+                <small class="text-body-secondary">3 days ago</small>
+              </div>
+              <p class="mb-1">Some placeholder content in a paragraph.</p>
+              <small class="text-body-secondary">And some muted small print.</small>
+            </a>
+          
+          </div>
+        </ng-template>
+      </li>
+      <li [ngbNavItem]="2">
+        <button ngbNavLink>Completed</button>
+        <ng-template ngbNavContent>
+          
+    
+          <p>
+            Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko
+            farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts
+            ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar
+            helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson
+            8-bit, sustainable jean shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester
+            stumptown, tumblr butcher vero sint qui sapiente accusamus tattooed echo park.
+          </p>
+        </ng-template>
+      </li>
+      <li [ngbNavItem]="3">
+        <button ngbNavLink>Dispute</button>
+        <ng-template ngbNavContent let-active>
+         
+    
+          <p>
+            Sed commodo, leo at suscipit dictum, quam est porttitor sapien, eget sodales nibh elit id diam. Nulla facilisi.
+            Donec egestas ligula vitae odio interdum aliquet. Duis lectus turpis, luctus eget tincidunt eu, congue et odio.
+            Duis pharetra et nisl at faucibus. Quisque luctus pulvinar arcu, et molestie lectus ultrices et. Sed diam urna,
+            egestas ut ipsum vel, volutpat volutpat neque. Praesent fringilla tortor arcu. Vivamus faucibus nisl enim, nec
+            tristique ipsum euismod facilisis. Morbi ut bibendum est, eu tincidunt odio. Orci varius natoque penatibus et
+            magnis dis parturient montes, nascetur ridiculus mus. Mauris aliquet odio ac lorem aliquet ultricies in eget
+            neque. Phasellus nec tortor vel tellus pulvinar feugiat.
+          </p>
+        </ng-template>
+      </li>
+    </ul>
+    
+    <div [ngbNavOutlet]="nav" class="mt-2"></div>
+  </div>
+
   </div>

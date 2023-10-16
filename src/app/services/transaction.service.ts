@@ -28,4 +28,8 @@ export class TransactionService {
     console.log(status, id)
     return this.http.put(`${url}update/${id}`, status, httpOptions);
   }
+
+  getUserTransactions(userId: number): Observable<any>{
+    return this.http.get(`${url}transactions/${userId}`, httpOptions);
+  }
 }

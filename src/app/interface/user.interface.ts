@@ -1,6 +1,8 @@
 export interface UserInterface
 {
-    name: string,
+    name?: string,
     email: string,
-    phone: string,
+    phone?: string,
+    isSeller?: boolean,
+    password?: string
 }
