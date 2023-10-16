@@ -9,6 +9,7 @@ import { Angular4PaystackModule } from 'angular4-paystack';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,7 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserAnimationsModule
 
   ],
-  providers: [ToastrService],
+  providers: [ToastrService, CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

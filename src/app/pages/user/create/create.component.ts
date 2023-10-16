@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MessageInterface } from 'src/app/interface/message.interface';
 import { NgxCurrencyDirective } from 'ngx-currency';
 import { Router, RouterModule } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-create',
@@ -29,11 +30,15 @@ export class CreateComponent implements OnInit {
   whoPaysForDelivery: string = '';
   deliveryRegion: string = '';
   txId!: number;
+  userId!: number;
   
-  constructor(private transactionService: TransactionService, private router: Router) { }
+  constructor(private transactionService: TransactionService, private router: Router, private cookieService: CookieService) { 
+    this.userId = parseInt(this.cookieService.get('_userId_'));
+
+  }
   
   ngOnInit(): void {
-      this.getProductFromJiji()
+    this.getProductFromJiji()
   }
 
   getProductFromJiji() {
@@ -44,8 +49,6 @@ export class CreateComponent implements OnInit {
         this.productFetched = true;
         this.message = data.message;
         this.product = data.product;
-        
-        console.log(data);  
       },
       error: error => {
         console.error('There was an error!', error);
@@ -98,7 +101,7 @@ export class CreateComponent implements OnInit {
 
   createEscrowTransaction() {
     const transaction = {
-      buyer_id: 1,
+      buyer_id: this.userId,
       produc_amount: this.product.advert.price.value,
       amount: this.negotiatedPrice ? this.negotiatedPrice : this.product.advert.price.value,
       escrow_fee: this.calculateEscrowFee(),

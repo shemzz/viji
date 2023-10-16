@@ -4,6 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,7 @@ export class LoginComponent {
   email: string = '';
   password: string = '';
 
-  constructor(private userService: UserService, private toastr: ToastrService, private router: Router) { }
+  constructor(private userService: UserService, private toastr: ToastrService, private router: Router, private cookieService: CookieService) { }
   
   login() {
     const user = {
@@ -26,7 +27,9 @@ export class LoginComponent {
     this.userService.login(user).subscribe({
       next: res => {
         console.log(res)
-        // save the logged in user credentials
+
+        this.cookieService.set('_token_', res.accessToken, { expires: 1, domain:'localhost', path: '/' });
+        this.cookieService.set('_userId_', res.user_id, { expires: 1, domain: 'localhost', path: '/' });
         this.router.navigate(['/transactions'])
       },
       error: err => {

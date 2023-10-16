@@ -9,6 +9,11 @@ import { UserInterface } from '../interface/user.interface';
 const url = environment.apiUrl;
 const httpOptions = environment.httpOptions
 
+interface LoggedInUser {
+  accessToken: string,
+  email: string,
+  id: number
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -31,4 +36,7 @@ export class UserService {
     return this.http.post(`${url}paymentstatus`, {ref: ref}, httpOptions)
   }
 
+  saveUserCredentials(user: LoggedInUser) {
+    
+  }
 }
