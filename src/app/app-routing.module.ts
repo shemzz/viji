@@ -11,6 +11,7 @@ const routes: Routes = [
   { path: 'transaction/:id', loadComponent: () => import('./pages/user/view-transaction/view-transaction.component').then(m => m.ViewTransactionComponent) },
   { path: 'seller-transaction/:id', loadComponent: () => import('./pages/user/seller-view-transaction/seller-view-transaction.component').then(m => m.SellerViewTransactionComponent) },
   { path: 'transaction/:id/payment/validate', loadComponent: () => import('./pages/validate-payment/validate-payment.component').then(m => m.ValidatePaymentComponent) },
+  { path: 'disputes', loadComponent: () => import('./pages/disputes/disputes.component').then(m => m.DisputesComponent) },
   { path: 'auth/login', loadComponent: () => import('./pages/auth/login/login.component').then(m => m.LoginComponent) },
   { path: 'auth/register', loadComponent: () => import('./pages/auth/register/register.component').then(m => m.RegisterComponent) },
   {path: '**', loadComponent: ()=> import('./pages/not-found/not-found.component').then(m=>m.NotFoundComponent)},

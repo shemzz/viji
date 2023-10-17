@@ -4,6 +4,7 @@ import { customAlphabet } from 'nanoid';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { UserInterface } from '../interface/user.interface';
+import { CookieService } from 'ngx-cookie-service';
 
 
 const url = environment.apiUrl;
@@ -19,7 +20,7 @@ interface LoggedInUser {
 })
 export class UserService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private cookieService: CookieService) { }
 
   register(data: UserInterface): Observable<any> {
     console.log(data)
@@ -36,7 +37,51 @@ export class UserService {
     return this.http.post(`${url}paymentstatus`, {ref: ref}, httpOptions)
   }
 
-  saveUserCredentials(user: LoggedInUser) {
-    
+  isLoggedIn(): boolean {
+    const user = this.cookieService.get('_userId_');
+    const key = this.cookieService.get('_token_');
+    if (user && key) {
+      return true
+    }
+
+    return false;
+  }
+
+  loggedInUser(): {} {
+    const id = this.cookieService.get('_userId_');
+    const key = this.cookieService.get('_token_');
+    const user = {
+      id: id,
+      key: key
+    }
+    if (user) {
+      return user
+    }
+
+    return {};
+  }
+
+  getUser(id: number): Observable<any>{
+    return this.http.get(`${url}user/${id}`, httpOptions)
+  }
+
+  getBanks(): Observable<any>{
+    return this.http.get(`${url}getbanks`, httpOptions)
+  }
+  validateAccountDetails(details: {}): Observable<any> {
+    return this.http.post(`${url}validateaccount`, details, httpOptions)
+  }
+
+  updatePayoutMethod(data: any): Observable<any> {
+    return this.http.post(`${url}updatepayout`, data, httpOptions)
+  }
+
+  updateUser(data: any, id: number): Observable<any> {
+    return this.http.put(`${url}update/user/${id}`, data, httpOptions);
+  }
+
+  signout() {
+    this.cookieService.deleteAll();
+    return true;
   }
 }

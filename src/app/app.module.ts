@@ -10,6 +10,7 @@ import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
+import { httpInterceptorProviders } from './helpers/http.interceptor';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,7 @@ import { CookieService } from 'ngx-cookie-service';
     BrowserAnimationsModule
 
   ],
-  providers: [ToastrService, CookieService],
+  providers: [ToastrService, CookieService, httpInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,1 +1,118 @@
-<p>profile works!</p>
+<div class="container" *ngIf="currentUser; else loggedOut">
+    <header class="jumbotron my-3 ">
+        <div class="center-item justify-content-end">
+            <button class="btn btn-xs btn-warning text-uppercase" (click)="logout()">logout</button>
+        </div>
+      <h3 class="text-center">
+        <strong>{{ editMode ? 'Edit ' : 'User Profile' }}</strong> 
+      </h3>
+    </header>
+ <div *ngIf="!editMode">
+    <p >
+        <strong>Name:</strong>
+        {{ currentUser.first_name}} {{currentUser.last_name}}
+      </p>
+      <p>
+        <strong>Email:</strong>
+        {{ currentUser.email }}
+      </p>
+      <p>
+        <strong>Phone:</strong>
+        {{ currentUser.phone }}
+      </p>
+      <p>
+        <strong>Date of Birth:</strong>
+        {{ currentUser.dob }}
+      </p>
+      <p>
+        <strong>Role:</strong>
+        {{currentUser.isSeller ? 'Seller' : 'Buyer'}}
+      </p>
+      <p *ngIf="currentUser.address">
+          <strong>Address:</strong>
+          {{ currentUser.address }}
+        </p>
+        <div *ngIf="currentUser.isSeller">
+
+            <p>
+                <strong>Bank:</strong>
+                {{ currentUser.bank_name }}
+              </p>
+              <p>
+                <strong>Account Name:</strong>
+                {{ currentUser.account_name }}
+              </p>
+              <p>
+                <strong>Account Number:</strong>
+                {{ currentUser.account_number }}
+              </p>
+        </div>
+
+        <div class="mt-5 center-item">
+            <button class="btn btn-sm btn-info items" (click)="toggleEditMode()">
+               Edit Profile
+              </button>
+          </div>
+ </div>
+
+  
+    <div class="mx-3" *ngIf="editMode">
+      <!-- Add your form fields for editing here -->
+      <label for="first_name" class="label mt-2"><strong>First Name</strong></label>
+      <input type="text" id="first_name" class="form-control" [(ngModel)]="currentUser.first_name" placeholder="First Name">
+
+      <label for="last_name" class="label mt-2"><strong>Last Name</strong></label>
+      <input type="text" id="last_name" class="form-control" [(ngModel)]="currentUser.last_name" placeholder="Last Name">
+
+      <label for="email"><strong>Email:</strong></label>
+      <p id="email">
+        {{ currentUser.email }} <button class="btn btn-xs btn-outline-danger">request change</button>
+      </p>
+
+      <label for="phone"><strong>Phone:</strong></label>
+      <p id="phone">
+        {{ currentUser.phone }} <button class="btn btn-xs btn-outline-danger"> request change</button>
+      </p>
+
+      <label for="dob" class="label mt-2"><strong>Date of birth</strong></label>
+      <input type="date" id="dob" class="form-control" [(ngModel)]="currentUser.dob" placeholder="Date of Birth">
+
+      <div *ngIf="currentUser.isSeller">
+        <label for="bank_name"><strong>Bank Name:</strong></label>
+        <input 
+        id="bank_name"
+                  type="text"
+                  class="form-control form-control-rounded col"
+                  [(ngModel)]="model"
+                  [ngModelOptions]="{standalone: true}"
+                  [ngbTypeahead]="search"
+                  [inputFormatter]="formatter"
+                  [resultFormatter]="formatter"
+                  (selectItem)="onBankSelected($event)"
+        placeholder="Bank Name">
+  
+        <label for="account_number"><strong>Account Number:</strong></label>
+        <input type="text" class="form-control" [(ngModel)]="currentUser.account_number" placeholder="Account Number">
+  
+        <label *ngIf="isValidated" for="account_name"><strong>Account Name:</strong></label>
+        <p *ngIf="isValidated">
+          {{ currentUser.account_name }}
+        </p>
+        <button *ngIf="!isValidated" class="btn btn-xs btn-success" (click)="validateAccount()">Validate Account</button>
+      </div>
+      <!-- Add more fields as needed -->
+
+      <div class="mt-5 center-item">
+        <button class="btn btn-sm btn-info items" (click)="updateProfile()">
+            Update Profile
+          </button>
+      </div>
+    </div>
+
+  
+  </div>
+  
+  <ng-template #loggedOut>
+    Please login.
+  </ng-template>
+  

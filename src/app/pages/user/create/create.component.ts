@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { FormsModule } from '@angular/forms';
@@ -16,11 +16,11 @@ import { CookieService } from 'ngx-cookie-service';
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.scss']
 })
-export class CreateComponent implements OnInit {
+export class CreateComponent {
 
   sellerPhone: any;
   message: MessageInterface = {};
-  productUrl: string = 'https://jiji.ng/ojodu/cars/mercedes-benz-gl-class-gl-450-2012-blue-pJKk2g0nGczlkbmoyJJ3UfTl.html?page=1&pos=2&cur_pos=2&ads_per_page=21&ads_count=97434&lid=DnJo9wLVcCQmd9E9&indexPosition=1';
+  productUrl: string = '';
   productFetched: boolean = false;
   product: any;
   isProductFullyLoaded: boolean = false;
@@ -35,10 +35,6 @@ export class CreateComponent implements OnInit {
   constructor(private transactionService: TransactionService, private router: Router, private cookieService: CookieService) { 
     this.userId = parseInt(this.cookieService.get('_userId_'));
 
-  }
-  
-  ngOnInit(): void {
-    this.getProductFromJiji()
   }
 
   getProductFromJiji() {
