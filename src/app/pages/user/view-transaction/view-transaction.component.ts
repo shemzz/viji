@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { UserInterface } from 'src/app/interface/user.interface';
 import { PaymentButtonComponent } from 'src/app/components/payment-button/payment-button.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ReasonsForDispute } from 'src/app/helpers/disputeReasons.data';
+import { ReasonInterface } from 'src/app/interface/reason.interface';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-view-transaction',
@@ -17,10 +20,15 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./view-transaction.component.scss']
 })
 export class ViewTransactionComponent implements OnInit {
+ 
 agreeToTermsOfUse: boolean = false;
   transactionId!: number;
   closeResult: any;
   transaction: any;
+  reasonsForDispute: any = ReasonsForDispute;
+  otherChecked = false;
+  otherReason = '';
+  selectedDisputes: any = [];
   user: UserInterface = {
     name: 'Shemang',
     email: 'david@gmail.com',
@@ -28,7 +36,7 @@ agreeToTermsOfUse: boolean = false;
   }
 
 
-constructor(private route: ActivatedRoute, private transactionService: TransactionService, private modalService: NgbModal){}
+constructor(private route: ActivatedRoute, private transactionService: TransactionService, private modalService: NgbModal, private toastr: ToastrService, private router: Router){}
 
 ngOnInit(): void {
   this.extractIdFromRoute();
@@ -72,9 +80,54 @@ viewTransaction() {
   }
 
   open(content: any) {
-    this.modalService.open(content, { ariaLabelledBy: 'Complete Transaction', centered: true, animation: true, backdrop: 'static' });
+    const type = content._declarationTContainer.localNames[0];
+    if (type === 'dispute') {
+      this.modalService.open(content, { ariaLabelledBy: 'Report Transaction', fullscreen: true, animation: true, backdrop: 'static', scrollable: true });
+    } else { 
+      this.modalService.open(content, { ariaLabelledBy: 'Complete Transaction', centered: true, animation: true, backdrop: 'static' });
+    }
   }
   
-
+  onCheckboxChange(reason: ReasonInterface): void {
+    if (reason.isChecked) {
+      this.selectedDisputes.push(reason);
+    } else {
+      this.selectedDisputes = this.selectedDisputes.filter((r: any) => r.id !== reason.id);
+    }
+    if (reason.name === 'Other (Please Specify)' && reason.isChecked) {
+      this.otherChecked = true
+    } else {
+      this.otherChecked = false;
+      this.otherReason = ''
+    }
+  }
+  addOtherIssueToList(id: number): void {
+    this.selectedDisputes = this.selectedDisputes.filter((reason: any) => reason.id !== id);
+    this.selectedDisputes.unshift({ id: 0, name: `Other Reason: ${this.otherReason}` });
+  }
+  
+  
+  handleSuccess() {
+    this.selectedDisputes = [];
+    this.router.navigate(['/disputes']);
+  }
+  
+  reportTransaction() {
+    this.otherReason !== '' ? this.addOtherIssueToList(13) : '';
+    this.transactionService.reportTransaction(this.selectedDisputes, this.transactionId).subscribe({
+      next: res => {
+        if (res.message == 'Dispute Created') {
+          this.toastr.info(res.message, "Done!")
+          this.handleSuccess();
+        }
+      },
+      error: err => {
+        this.toastr.error(err.error.message, "Error")
+        console.error(err)
+      }
+    })
+  }
+  
+  
   
 }

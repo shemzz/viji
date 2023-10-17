@@ -39,16 +39,16 @@ export class TransactionsComponent implements OnInit{
       }
      }) 
   }
-  get disputedTransactions() {
-    return this.transactions?.filter((transaction: any) => transaction.status === 'dispute' || transaction.status === 'refund');
+  get activeTransactions() {
+    return this.transactions?.filter((transaction: any) => transaction.status === 'created' || transaction.status === 'pending' || transaction.status === 'started');
   }
-
+  
   get completedTransactions() {
     return this.transactions?.filter((transaction: any) => transaction.status === 'completed');
   }
-
-  get activeTransactions() {
-    return this.transactions?.filter((transaction: any) => transaction.status === 'created' || transaction.status === 'pending' || transaction.status === 'started');
+  
+  get disputedTransactions() {
+    return this.transactions?.filter((transaction: any) => transaction.status === 'dispute' || transaction.status === 'refund');
   }
 
   setStatusMessage(status: string) {

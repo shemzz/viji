@@ -8,7 +8,7 @@
         <button ngbNavLink>Active <span class="badge rounded-pill text-bg-dark">{{activeTransactions?.length}}</span></button>
         <ng-template ngbNavContent>
           <div class="list-group">
-            <ng-container *ngIf="activeTransactions?.length > 0; else noDispute">
+            <ng-container *ngIf="activeTransactions?.length > 0; else noActive">
               <a *ngFor="let transaction of activeTransactions" [routerLink]="isSeller ? '/seller-transaction/' + transaction.id : '/transaction/' + transaction.id" class="list-group-item list-group-item-action mb-2">
                 <!-- Your transaction content here -->
                 <div class="d-flex w-100 justify-content-between">
@@ -16,12 +16,12 @@
                   <small class="text-body-secondary">{{transaction.updatedAt | date}}</small>
                 </div>
                 <p class="mb-1">{{transaction.product.advert.title}}</p>
-                <small class="text-body-primary" [ngClass]="transaction.status === 'dispute' ? 'text-danger': ''">{{setStatusMessage(transaction.status)}}</small>
+                <small class="text-body-primary" [ngClass]="transaction.status === 'created' || transaction.status === 'started' || transaction.status === 'pending' ? 'text-dark': ''">{{setStatusMessage(transaction.status)}}</small>
               </a>
             </ng-container>
           </div>
         </ng-template>
-        <ng-template #noDispute>
+        <ng-template #noActive>
           <p class="small text-center mt-5">You do not have any active transaction</p>
         </ng-template>
       </li>
@@ -30,7 +30,7 @@
         <button ngbNavLink>Completed <span class="badge rounded-pill text-bg-success">{{completedTransactions?.length}}</span> </button>
         <ng-template ngbNavContent let-active>
           <div class="list-group">
-            <ng-container *ngIf="completedTransactions?.length > 0; else noDispute">
+            <ng-container *ngIf="completedTransactions?.length > 0; else noComplete">
               <a *ngFor="let transaction of completedTransactions" [routerLink]="isSeller ? '/seller-transaction/' + transaction.id : '/transaction/' + transaction.id" class="list-group-item list-group-item-action mb-2">
                 <!-- Your transaction content here -->
                 <div class="d-flex w-100 justify-content-between">
@@ -38,13 +38,13 @@
                   <small class="text-body-secondary">{{transaction.updatedAt | date}}</small>
                 </div>
                 <p class="mb-1">{{transaction.product.advert.title}}</p>
-                <small class="text-body-primary" [ngClass]="transaction.status === 'dispute' ? 'text-danger': ''">{{setStatusMessage(transaction.status)}}</small>
+                <small class="text-body-primary" [ngClass]="transaction.status === 'completed' ? 'text-success': ''">{{setStatusMessage(transaction.status)}}</small>
               </a>
             </ng-container>
           </div>
         </ng-template>
-        <ng-template #noDispute>
-          <p class="small text-center mt-5">You do not have any transaction in dispute</p>
+        <ng-template #noComplete>
+          <p class="small text-center mt-5">You have not completed any transaction</p>
         </ng-template>
       </li>
    <li [ngbNavItem]="3">
@@ -59,7 +59,7 @@
             <small class="text-body-secondary">{{transaction.updatedAt | date}}</small>
           </div>
           <p class="mb-1">{{transaction.product.advert.title}}</p>
-          <small class="text-body-primary" [ngClass]="transaction.status === 'dispute' ? 'text-danger': ''">{{setStatusMessage(transaction.status)}}</small>
+          <small class="text-body-primary" [ngClass]="transaction.status === 'dispute' || transaction.status === 'refund' ? 'text-danger': ''">{{setStatusMessage(transaction.status)}}</small>
         </a>
       </ng-container>
     </div>
