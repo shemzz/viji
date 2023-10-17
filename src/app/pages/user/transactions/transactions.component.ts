@@ -39,6 +39,17 @@ export class TransactionsComponent implements OnInit{
       }
      }) 
   }
+  get disputedTransactions() {
+    return this.transactions?.filter((transaction: any) => transaction.status === 'dispute' || transaction.status === 'refund');
+  }
+
+  get completedTransactions() {
+    return this.transactions?.filter((transaction: any) => transaction.status === 'completed');
+  }
+
+  get activeTransactions() {
+    return this.transactions?.filter((transaction: any) => transaction.status === 'created' || transaction.status === 'pending' || transaction.status === 'started');
+  }
 
   setStatusMessage(status: string) {
     if (status === 'created') {

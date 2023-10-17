@@ -3,79 +3,73 @@
   <p *ngIf="transactionsLoaded && transactions?.length <= 0">You do not have any Transactions. </p>
   <div *ngIf="transactions?.length > 0">
     <ul  ngbNav #nav="ngbNav" [(activeId)]="active" [destroyOnHide]="false" class="nav-tabs justify-content-center">
+
       <li [ngbNavItem]="1" [destroyOnHide]="true">
-        <button ngbNavLink>Active</button>
+        <button ngbNavLink>Active <span class="badge rounded-pill text-bg-dark">{{activeTransactions?.length}}</span></button>
         <ng-template ngbNavContent>
           <div class="list-group">
-            <ng-container *ngFor="let transaction of transactions">
-              <ng-container *ngIf="transaction.status === 'created' || transaction.status === 'started' || transaction.status === 'pending' else noActive">
-                <a [routerLink]="isSeller ? '/seller-transaction/' + transaction.id : '/transaction/' + transaction.id" class="list-group-item list-group-item-action mb-2">
-                  <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">{{transaction.transaction_details.amount | currency: '&#8358;' }}</h5>
-                    <small class="text-body-secondary">{{transaction.updatedAt | date}}</small>
-                  </div>
-                  <p class="mb-1">{{transaction.product.advert.title}}</p>
-                  <small class="text-body-primary" [ngClass]="transaction.status === 'dispute' ? 'text-danger': ''">{{setStatusMessage(transaction.status)}}</small>
-                </a>
-              </ng-container>
-              <ng-template #noActive>
-                <p class="small text-center mt-5">You do not have any active transaction</p>
-              </ng-template>
+            <ng-container *ngIf="activeTransactions?.length > 0; else noDispute">
+              <a *ngFor="let transaction of activeTransactions" [routerLink]="isSeller ? '/seller-transaction/' + transaction.id : '/transaction/' + transaction.id" class="list-group-item list-group-item-action mb-2">
+                <!-- Your transaction content here -->
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">{{transaction.transaction_details.amount | currency: '&#8358;' }}</h5>
+                  <small class="text-body-secondary">{{transaction.updatedAt | date}}</small>
+                </div>
+                <p class="mb-1">{{transaction.product.advert.title}}</p>
+                <small class="text-body-primary" [ngClass]="transaction.status === 'dispute' ? 'text-danger': ''">{{setStatusMessage(transaction.status)}}</small>
+              </a>
             </ng-container>
-            
-          
           </div>
         </ng-template>
+        <ng-template #noDispute>
+          <p class="small text-center mt-5">You do not have any active transaction</p>
+        </ng-template>
       </li>
+
       <li [ngbNavItem]="2">
-        <button ngbNavLink>Completed</button>
-        <ng-template ngbNavContent>
-          <div class="list-group">
-            <ng-container *ngFor="let transaction of transactions">
-              <ng-container *ngIf="transaction.status === 'completed' || transaction.status === 'refund'; else noComplete">
-                <a [routerLink]="isSeller ? '/seller-transaction/' + transaction.id : '/transaction/' + transaction.id" class="list-group-item list-group-item-action mb-2">
-                  <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">{{transaction.transaction_details.amount | currency: '&#8358;' }}</h5>
-                    <small class="text-body-secondary">{{transaction.updatedAt | date}}</small>
-                  </div>
-                  <p class="mb-1">{{transaction.product.advert.title}}</p>
-                  <small class="text-body-primary" [ngClass]="transaction.status === 'dispute' ? 'text-danger': ''">{{setStatusMessage(transaction.status)}}</small>
-                </a>
-              </ng-container>
-              <ng-template #noComplete>
-                <p class="small text-center mt-5">You have not yet completed any transaction</p>
-              </ng-template>
-            </ng-container>
-            
-          
-          </div>
-        </ng-template>
-      </li>
-      <li [ngbNavItem]="3">
-        <button ngbNavLink>Dispute</button>
+        <button ngbNavLink>Completed <span class="badge rounded-pill text-bg-success">{{completedTransactions?.length}}</span> </button>
         <ng-template ngbNavContent let-active>
           <div class="list-group">
-            <ng-container *ngFor="let transaction of transactions">
-              <ng-container *ngIf="transaction.status === 'dispute' else noDispute">
-                <a [routerLink]="isSeller ? '/seller-transaction/' + transaction.id : '/transaction/' + transaction.id" class="list-group-item list-group-item-action mb-2">
-                  <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">{{transaction.transaction_details.amount | currency: '&#8358;' }}</h5>
-                    <small class="text-body-secondary">{{transaction.updatedAt | date}}</small>
-                  </div>
-                  <p class="mb-1">{{transaction.product.advert.title}}</p>
-                  <small class="text-body-primary" [ngClass]="transaction.status === 'dispute' ? 'text-danger': ''">{{setStatusMessage(transaction.status)}}</small>
-                </a>
-              </ng-container>
-
-              <ng-template #noDispute>
-                <p class="small text-center mt-5">You have no transaction in Dispute</p>
-              </ng-template>
+            <ng-container *ngIf="completedTransactions?.length > 0; else noDispute">
+              <a *ngFor="let transaction of completedTransactions" [routerLink]="isSeller ? '/seller-transaction/' + transaction.id : '/transaction/' + transaction.id" class="list-group-item list-group-item-action mb-2">
+                <!-- Your transaction content here -->
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">{{transaction.transaction_details.amount | currency: '&#8358;' }}</h5>
+                  <small class="text-body-secondary">{{transaction.updatedAt | date}}</small>
+                </div>
+                <p class="mb-1">{{transaction.product.advert.title}}</p>
+                <small class="text-body-primary" [ngClass]="transaction.status === 'dispute' ? 'text-danger': ''">{{setStatusMessage(transaction.status)}}</small>
+              </a>
             </ng-container>
-            
-          
           </div>
         </ng-template>
+        <ng-template #noDispute>
+          <p class="small text-center mt-5">You do not have any transaction in dispute</p>
+        </ng-template>
       </li>
+   <li [ngbNavItem]="3">
+  <button ngbNavLink>Dispute <span class="badge rounded-pill text-bg-danger">{{disputedTransactions?.length}}</span></button>
+  <ng-template ngbNavContent let-active>
+    <div class="list-group">
+      <ng-container *ngIf="disputedTransactions?.length > 0; else noDispute">
+        <a *ngFor="let transaction of disputedTransactions" [routerLink]="isSeller ? '/seller-transaction/' + transaction.id : '/transaction/' + transaction.id" class="list-group-item list-group-item-action mb-2">
+          <!-- Your transaction content here -->
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{transaction.transaction_details.amount | currency: '&#8358;' }}</h5>
+            <small class="text-body-secondary">{{transaction.updatedAt | date}}</small>
+          </div>
+          <p class="mb-1">{{transaction.product.advert.title}}</p>
+          <small class="text-body-primary" [ngClass]="transaction.status === 'dispute' ? 'text-danger': ''">{{setStatusMessage(transaction.status)}}</small>
+        </a>
+      </ng-container>
+    </div>
+  </ng-template>
+  <ng-template #noDispute>
+    <p class="small text-center mt-5">You have no transaction in Dispute</p>
+  </ng-template>
+</li>
+
+      
     </ul>
     
     <div [ngbNavOutlet]="nav" class="mt-2"></div>
