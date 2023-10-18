@@ -22,7 +22,7 @@ export class RegisterComponent {
     email: '',
     phone: '',
     password: '',
-    isSeller: true
+    isSeller: false
   }
 
   constructor(private userService: UserService, private toastr: ToastrService) { }
@@ -36,7 +36,21 @@ export class RegisterComponent {
       error: err => {
         console.log(err.error.message)
         this.toastr.error(err.error.message, 'Error')
-      }
+      },
+      complete: ()=> console.log('proceed to verify email component')
     })
+  }
+
+  CheckUserType() {
+    
+    if (this.user.isSeller) {
+      this.user.isSeller = true;
+      console.log('User is a seller');
+      // Additional actions when user is a seller
+    } else {
+      console.log('User is not a seller');
+      this.user.isSeller = false;
+      // Additional actions when user is not a seller
+    }
   }
 }

@@ -3,19 +3,22 @@ import { CommonModule } from '@angular/common';
 import { UserService } from 'src/app/services/user.service';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { Observable, debounceTime, map } from 'rxjs';
+import { Observable, Subscription, debounceTime, map } from 'rxjs';
 import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
+import { EventBusService } from 'src/app/services/event-bus.service';
+import { LocalService } from 'src/app/services/local.service';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
   imports: [CommonModule, RouterModule, FormsModule, NgbTypeaheadModule],
-  providers: [UserService],
+  providers: [UserService, EventBusService],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
+  message: string = 'Fetching User Profile...'
   public model: any;
   banks: any;
   selectedBank: any;
@@ -27,29 +30,37 @@ export class ProfileComponent implements OnInit {
   editMode = false;
   account_number: any;
   account_name: string = '';
+
+  eventBusSub?: Subscription;
   
-  constructor(private userService: UserService, private router: Router, private toastr: ToastrService) { }
+  constructor(private userService: UserService, private router: Router, private toastr: ToastrService, private eventBusService: EventBusService, public localService: LocalService) { }
 
   ngOnInit(): void {
-    this.user = this.userService.loggedInUser();
-    console.log(this.user)
-    this.getLoggedInUser();
-    this.getBanks()
+    this.localService.isLoggedIn().subscribe(value => {
+      if (value === false) {
+        this.router.navigate(['/auth/login'])
+      }
+    })
+    this.user = this.localService.getLoggedInUser();
+    this.getLoggedInUser(this.user.id);
+
+    // this.eventBusSub = this.eventBusService.on('logout', () => { this.logout() });
   }
   
   toggleEditMode() {
     this.editMode = !this.editMode;
   }
 
-  getLoggedInUser() {
-    return this.userService.getUser(this.user.id).subscribe({
+  getLoggedInUser(id: number) {
+    return this.userService.getUser(id).subscribe({
       next: res => {
-        console.log(res)
         this.currentUser = res.user;
       },
       error: err => {
         console.error(err.error.name)
-      }
+        this.message = err.error.name;
+      },
+      complete: () => this.getBanks()
     })
   }
 
@@ -110,12 +121,12 @@ formatter = (bank: any) => bank.name;
   
 
   logout() {
-    const logout = this.userService.signout();
-    if (logout) {
-      console.log('logged out')
-      this.userService.isLoggedIn();
-      window.location.reload()
-      this.router.navigate(['/']);
-    }
+    this.localService.clean();
+    this.localService.setLoggedInStatus(false);
+    // this.localService.isLoggedIn().subscribe(value => {
+    //   if (value === true) {
+    //     window.location.reload()
+    //   }
+    // })
 }
 }

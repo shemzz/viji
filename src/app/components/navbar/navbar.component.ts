@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
+import { LocalService } from 'src/app/services/local.service';
 
 
 @Component({
@@ -13,13 +14,11 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class NavbarComponent implements OnInit {
   loggedIn: boolean = false;
-  constructor(private router: Router, private userService: UserService) { }
+  constructor(private localService: LocalService) { }
 
   ngOnInit(): void {
-    this.loggedIn = this.userService.isLoggedIn()
+    this.localService.isLoggedIn().subscribe(value =>{ this.loggedIn = value})
   }
-  create() {
-    this.router.navigate(['/create']);
-  }
+  
 
 }

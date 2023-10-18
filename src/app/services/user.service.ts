@@ -20,14 +20,12 @@ interface LoggedInUser {
 })
 export class UserService {
 
-  constructor(private http: HttpClient, private cookieService: CookieService) { }
+  constructor(private http: HttpClient) { }
 
   register(data: UserInterface): Observable<any> {
-    console.log(data)
     return this.http.post(`${url}signup`, data, httpOptions)
   }
   login(data: UserInterface): Observable<any>{
-    console.log(data)
     return this.http.post(`${url}signin`, data, httpOptions)
   }
   forgotPassword(ref: string): Observable<any>{
@@ -35,30 +33,6 @@ export class UserService {
   }
   resetPassword(ref: string): Observable<any>{
     return this.http.post(`${url}paymentstatus`, {ref: ref}, httpOptions)
-  }
-
-  isLoggedIn(): boolean {
-    const user = this.cookieService.get('_userId_');
-    const key = this.cookieService.get('_token_');
-    if (user && key) {
-      return true
-    }
-
-    return false;
-  }
-
-  loggedInUser(): {} {
-    const id = this.cookieService.get('_userId_');
-    const key = this.cookieService.get('_token_');
-    const user = {
-      id: id,
-      key: key
-    }
-    if (user) {
-      return user
-    }
-
-    return {};
   }
 
   getUser(id: number): Observable<any>{
@@ -80,8 +54,12 @@ export class UserService {
     return this.http.put(`${url}update/user/${id}`, data, httpOptions);
   }
 
-  signout() {
-    this.cookieService.deleteAll();
-    return true;
+  logout() {
+    return this.http.post(`${url}logout`, {}, httpOptions)
   }
+
+  refreshToken() {
+    return this.http.post(`${url}refreshtoken`, { }, httpOptions);
+  }
+
 }

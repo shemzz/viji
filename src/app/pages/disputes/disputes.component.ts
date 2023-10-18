@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { UserService } from 'src/app/services/user.service';
 import { RouterModule } from '@angular/router';
+import { LocalService } from 'src/app/services/local.service';
 
 @Component({
   selector: 'app-disputes',
@@ -14,10 +15,10 @@ import { RouterModule } from '@angular/router';
 export class DisputesComponent implements OnInit {
   user: any;
   disputes: any = [];
-  constructor(private transactionService: TransactionService, private userService: UserService) { }
+  constructor(private transactionService: TransactionService, private localService: LocalService) { }
   
   ngOnInit(): void {
-    this.user = this.userService.loggedInUser()
+    this.user = this.localService.getLoggedInUser()
     this.getDisputes(this.user.id);
   }
 

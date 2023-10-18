@@ -5,39 +5,46 @@ import { TransactionService } from 'src/app/services/transaction.service';
 import { HttpClientModule } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 import { RouterModule } from '@angular/router';
+import { UserService } from 'src/app/services/user.service';
+import { LocalService } from 'src/app/services/local.service';
 
 @Component({
   selector: 'app-transactions',
   standalone: true,
   imports: [CommonModule, HttpClientModule, NgbNavModule, NgIf, RouterModule],
-  providers: [TransactionService],
+  providers: [TransactionService, UserService],
   templateUrl: './transactions.component.html',
   styleUrls: ['./transactions.component.scss']
 })
 export class TransactionsComponent implements OnInit{
   transactionsLoaded: boolean = false;
   transactions: any;
-  message: string = '';
+  message: string = 'Loading Transactions';
   active: number = 1;
-  userId!: number;
+  user!: any;
   isSeller?: boolean;
 
-  constructor(private transactionService: TransactionService, private cookieService: CookieService) {
-    this.userId = parseInt(this.cookieService.get('_userId_'));
+  constructor(private transactionService: TransactionService, private localService: LocalService) {
   }
 
   ngOnInit(): void {
-    this.transactionService.getUserTransactions(this.userId).subscribe({
-      next: res => {
-        console.log(res)
-        this.transactions = res.transactions;
-        this.isSeller = res.isSeller;
-        this.transactionsLoaded = true;
-      },
-      error: err => {
-        console.log(err);
+    this.localService.isLoggedIn().subscribe(value => {
+      if (value === true) {
+        this.user = this.localService.getLoggedInUser();
+        this.transactionService.getUserTransactions(this.user.id).subscribe({
+          next: res => {
+            this.transactions = res.transactions;
+            this.isSeller = res.isSeller;
+            this.transactionsLoaded = true;
+          },
+          error: err => {
+            console.log(err);
+          }
+         }) 
+      } else {
+        this.message= 'You must log in first!'
       }
-     }) 
+    })
   }
   get activeTransactions() {
     return this.transactions?.filter((transaction: any) => transaction.status === 'created' || transaction.status === 'pending' || transaction.status === 'started');
