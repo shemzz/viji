@@ -1,6 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
 
-/* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
 @import '@fortawesome/fontawesome-free/scss/fontawesome';
 @import '@fortawesome/fontawesome-free/scss/solid';
@@ -11,12 +9,16 @@
 }
 body{
     background-color: inherit;
+    font-family: 'Poppins-Regular', sans-serif;
 }
 
 .bg-viji{
     background-color: #00b53f;
     color: #f3f3f3;
     box-shadow: 1px 1px 4px rgba(80,114,125,.4);
+}
+.viji-gradient {
+   background: linear-gradient(160.29deg,#00b53f .67%,#00831e 100.93%);
 }
 .color-viji{
     color: #00b53f;
