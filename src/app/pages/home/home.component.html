@@ -121,6 +121,7 @@
           </div>
         </div>
       </div>
+
       <div class="container-fluid px-4 py-5" id="custom-cards">
         <h2 class="pb-2 border-bottom">Custom cards</h2>
     
@@ -189,6 +190,29 @@
           </div>
         </div>
       </div>
+
+
+        <div class="p-3 text-center">
+          <div class="container py-5">
+            <h1 class="text-body-emphasis">Frequently asked questions</h1>
+            <div ngbAccordion [closeOthers]="true">
+                <div ngbAccordionItem *ngFor="let panel of panels" [collapsed]="panel !== 'First'">
+                    <h2 ngbAccordionHeader>
+                        <button ngbAccordionButton>{{ panel.question }}</button>
+                    </h2>
+                    <div ngbAccordionCollapse>
+                        <div class="text-bg-secondary" ngbAccordionBody>
+                            <ng-template>
+                                {{panel.answer}}
+                            </ng-template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+          </div>
+        </div>
+
       
       <div class="my-5 ">
         <div class="p-5 text-white text-center viji-gradient">
