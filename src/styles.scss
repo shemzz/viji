@@ -20,6 +20,16 @@ body{
 .viji-gradient {
    background: linear-gradient(160.29deg,#00b53f .67%,#00831e 100.93%);
 }
+.viji-gradient-end {
+    background-color: #00831e;
+
+    p, h4 {
+        color: #f3f3f3;
+    }
+    h4 {
+        margin-bottom: 0px;
+    }
+}
 .color-viji{
     color: #00b53f;
 }

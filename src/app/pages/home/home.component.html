@@ -5,7 +5,7 @@
         <h3 class="fw-normal text-muted mb-3">Buy or sell anything on <span class="bg-viji px-1 rounded fw-semibold">Jiji</span> with <span class="bg-viji rounded px-1 fw-semibold">100%</span> confidence</h3>
         <div class="d-flex gap-3 justify-content-center ">
           <div class="icon-link">
-            <a href="#" class="btn btn-viji rounded">
+            <a [routerLink]="['/create']" class="btn btn-viji rounded">
                 Get Started
               </a>
           </div>
@@ -24,8 +24,8 @@
           <h2 class="display-5">Sell to More Customers</h2>
           <p class="lead">Get more sales with vijiPay</p>
         </div>
-        <div class="bg-body-tertiary shadow-sm mx-auto" style="width: 80%; height: 330px;  border-radius: 21px 21px 0 0;">
-        <p class="text-dark p-3">VijiPay empowers sellers on Jiji Marketplace in Nigeria by providing secure transactions, enabling them to effortlessly reach a wider audience and sell to more customers, regardless of location</p>
+        <div class="bg-body-tertiary shadow-sm mx-auto" style="width: 80%; height: 350px;  border-radius: 21px 21px 0 0;">
+        <p class="text-dark px-3 py-1">VijiPay empowers sellers on Jiji Marketplace in Nigeria by providing secure transactions, enabling them to effortlessly reach a wider audience and sell to more customers, regardless of location</p>
 
         <p class=" p-3 text-dark">With VijiPay, sellers can expand their reach within Nigeria, ensuring trusted transactions and access to a broader customer base on Jiji Marketplace.</p>
 
@@ -33,10 +33,10 @@
       </div>
       <div class="bg-body-tertiary me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
         <div class="my-3 p-3">
-          <h2 class="display-5">Protects Buyers from Scam</h2>
+          <h2 class="display-5">Protects you from Scam</h2>
           <p class="lead">Buy anything anywhere</p>
         </div>
-        <div class="viji-gradient shadow-sm mx-auto" style="width: 80%; height: 330px; border-radius: 21px 21px 0 0;">
+        <div class="viji-gradient shadow-sm mx-auto" style="width: 80%; height: 350px; border-radius: 21px 21px 0 0;">
             <p class="text-white p-3">As a buyer, VijiPay offers you secure transactions on Jiji Marketplace, allowing you to shop with confidence from a diverse range of sellers across Nigeria.</p>
 
             <p class=" p-3 text-white">With VijiPay, buyers enjoy a trusted and seamless shopping experience on Jiji Marketplace, gaining access to a wider selection of products from sellers all over Nigeria.</p>
@@ -44,14 +44,14 @@
       </div>
     </div>
 
-    <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-body-tertiary">
-        <h2 class="pb-2 border-bottom">Features with title</h2>
+    <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center viji-gradient-end">
+        <h2 class="pb-2 border-bottom text-white">Why VijiPay?</h2>
     
         <div class="row row-cols-1 row-cols-md-2 align-items-md-center g-5 py-5">
           <div class="col d-flex flex-column align-items-center gap-2">
-            <p class="text-body-emphasis">VijiPay goes beyond traditional escrow platforms by incorporating advanced cybersecurity measures. VijiPay's unique blend of Fintech and cybersecurity positions it as a reliable and innovative product that not only protects transactions but also promotes trust, mitigates risks and enhances the overall security of online commerce.
+            <p>VijiPay goes beyond traditional escrow platforms by incorporating advanced cybersecurity measures. VijiPay's unique blend of Fintech and cybersecurity positions it as a reliable and innovative product that not only protects transactions but also promotes trust, mitigates risks and enhances the overall security of online commerce.
             </p>
-            <a href="#" class="btn viji-gradient text-white btn-sm">Learn More
+            <a [routerLink]="['/about']" class="btn btn-dark">Learn More
                 <i class="fa-solid fa-chevron-right"></i>
             </a>
           </div>
@@ -59,131 +59,148 @@
           <div class="col">
             <div class="row row-cols-1 row-cols-sm-2 g-4">
               <div class="col d-flex flex-column gap-2">
-                <div class="feature-icon-small d-inline-flex align-items-center justify-content-center viji-gradient fs-4 rounded-3 py-5">
-                    <i class="fa-solid fa-handshake fa-2xl"></i>
+                <div class="feature-icon-small d-inline-flex align-items-center justify-content-center bg-white fs-4 rounded-3 py-5">
+                    <i class="fa-solid fa-handshake fa-2xl  color-viji"></i>
                 </div>
-                <h4 class="fw-semibold mb-0 text-body-emphasis">Fair Dispute  Resolution </h4>
-                <p class="text-body-secondary">In the rare event of a dispute, VijiPay offers a fair and transparent resolution process to ensure a satisfactory outcome for all parties.</p>
+                <h4>Fair Dispute  Resolution </h4>
+                <p>In the rare event of a dispute, VijiPay offers a fair and transparent resolution process to ensure a satisfactory outcome for all parties.</p>
               </div>
     
               <div class="col d-flex flex-column gap-2">
-                <div class="feature-icon-small d-inline-flex align-items-center justify-content-center py-5 viji-gradient fs-4 rounded-3">
+                <div class="feature-icon-small d-inline-flex align-items-center justify-content-center py-5 bg-white fs-4 rounded-3">
                     <i class="fa-solid fa-triangle-exclamation fa-2xl text-warning"></i>
                 </div>
-                <h4 class="fw-semibold mb-0 text-body-emphasis">Proactive Fraud Detection</h4>
-                <p class="text-body-secondary">Using Machine learning, we analyze transaction patterns, user behaviour, and other relevant data to identify suspicious activities and potential fraud attempts</p>
+                <h4>Proactive Fraud Detection</h4>
+                <p>Using Machine learning, we analyze transaction patterns, user behaviour, and other relevant data to identify suspicious activities and potential fraud attempts</p>
               </div>
     
               <div class="col d-flex flex-column gap-2">
-                <div class="feature-icon-small d-inline-flex align-items-center justify-content-center py-5 viji-gradient fs-4 rounded-3">
-                    <i class="fa-solid fa-plug-circle-check fa-2xl"></i>
+                <div class="feature-icon-small d-inline-flex align-items-center justify-content-center py-5 bg-white fs-4 rounded-3">
+                    <i class="fa-solid fa-plug-circle-check fa-2xl color-viji"></i>
                 </div>
-                <h4 class="fw-semibold mb-0 text-body-emphasis">Streamlined Integration</h4>
-                <p class="text-body-secondary">vijiPay was built specifically with jiji Marketplace in mind. This ensures a smooth adoption process for businesses and individuals, expanding the reach of secure transactions.
+                <h4>Streamlined Integration</h4>
+                <p>vijiPay was built specifically with jiji Marketplace in mind. This ensures a smooth adoption process for businesses and individuals, expanding the reach of secure transactions.
                 </p>
               </div>
     
               <div class="col d-flex flex-column gap-2">
-                <div class="feature-icon-small d-inline-flex align-items-center justify-content-center viji-gradient py-5 fs-4 rounded-3">
-                    <i class="fa-solid fa-comments fa-2xl"></i>
+                <div class="feature-icon-small d-inline-flex align-items-center justify-content-center bg-white py-5 fs-4 rounded-3">
+                    <i class="fa-solid fa-comments fa-2xl color-viji"></i>
                 </div>
-                <h4 class="fw-semibold mb-0 text-body-emphasis">AI-Powered Customer Support</h4>
-                <p class="text-body-secondary">vijiPay utilizes intelligent chatbots, powered by AI, to provide personalized customer support, assist users in understanding their rights, and finding solutions to their concerns.</p>
+                <h4>AI-Powered Support</h4>
+                <p>vijiPay utilizes intelligent chatbots, powered by AI, to provide personalized customer support, assist users in understanding their rights, and finding solutions to their concerns.</p>
               </div>
             </div>
           </div>
         </div>
       </div>
   
-    <div class="my-5">
-        <div class="p-5 text-center bg-body-tertiary">
+    <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-body-tertiary">
           <div class="container py-5">
             <h1 class="text-body-emphasis">How vijiPay Works</h1>
             <p class="col-lg-8 mx-auto lead">
                 Discover the simple steps to using VijiPay for secure transactions. From listing your products to receiving prompt payouts, our platform streamlines the process for sellers and provides peace of mind for buyers.
             </p>
             <div class="row">
-                <div class="col-md-3">
-                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nostrum quibusdam modi totam? Quo temporibus aliquid possimus doloremque ducimus laboriosam! Est fuga odit exercitationem. Minima possimus ipsam dolorum earum nesciunt autem est, id iste corrupti sit accusantium nemo tempore qui ratione.</p>
-
+                <div class="col-md-3 order-md-1 order-2">
+                    <h6 class="fw-semibold">Step 1:</h6>
+                    <p>Copy the product's link from jiji.ng</p>
+                    <hr>
+                    <h6 class="fw-semibold">Step 2:</h6>
+                    <p>Click on <button class="btn btn-sm bg-warning">Create Escrow</button> and paste the link to fetch the product information.</p>
+                    <hr>
+                    <h6 class="fw-semibold">Step 3:</h6>
+                    <p>If sellers phone number is not automatically fetched, copy or type it in the box provided.</p>
+                    <hr class="d-sm-block d-md-none">
                 </div>
-                <div class="col-md-6">
-                    <img src="..." alt="phone image">
+                <div class="col-md-6 d-flex justify-content-center order-md-2 order-1">
+                    <video class="d-flex justify-content-center" src="/assets/appworks.mp4" autoplay loop width="350"></video>
                 </div>
-                <div class="col-md-3">
-                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eum neque praesentium inventore soluta quia incidunt quasi facere adipisci ut voluptate dicta, nihil fugit velit eaque consequatur amet nisi iusto laborum.</p>
+                <div class="col-md-3 order-md-3 order-3">
+                    <h6 class="fw-semibold">Step 4:</h6>
+                    <p>Provide additional details for your transaction (if applicable).</p>
+                    <hr>
+                    <h6 class="fw-semibold">Step 5:</h6>
+                    <p>Pay into our secure holding so the seller can deliver your product</p>
+                    <hr>
+                    <h6 class="fw-semibold">Step 6:</h6>
+                    <p>When you recieve the item and you are satisfied, mark the transaction as complete else <strong>Report the Transaction</strong></p>
+                    <hr>
+                    <h6 class="fw-semibold">As easy as <em>A B C</em></h6>
                 </div>
             </div>
           </div>
-        </div>
       </div>
 
-      <div class="container-fluid px-4 py-5" id="custom-cards">
-        <h2 class="pb-2 border-bottom">Custom cards</h2>
+      <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-body-tertiary">
+        <h2 class="pb-2 border-bottom">Testimonials</h2>
     
         <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
           <div class="col">
-            <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background-image: url('unsplash-photo-1.jpg');">
+            <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg testimony-1">
               <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-                <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Short title, long jacket</h3>
+                <p class="pt-3 mb-4 lh-2">"VijiPay has completely transformed the way I do business on Jiji Marketplace. The secure escrow service gave me the confidence to expand my reach and serve customers from all over Nigeria. Prompt payouts and excellent customer support make VijiPay an invaluable tool for any seller."
+                </p>
                 <ul class="d-flex list-unstyled mt-auto">
                   <li class="me-auto">
-                    <img src="https://github.com/twbs.png" alt="Bootstrap" width="32" height="32" class="rounded-circle border border-white">
+                    <img src="/assets/testimony-1.jpeg" alt="Nonso" width="40" height="40" class="rounded-circle border border-white">
                   </li>
                   <li class="d-flex align-items-center me-3">
                     <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#geo-fill"></use></svg>
-                    <small>Earth</small>
+                    <small>Nonso, Nonibest Enterprise</small>
                   </li>
                   <li class="d-flex align-items-center">
                     <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"></use></svg>
-                    <small>3d</small>
+                    <small>Lagos</small>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg testimony-2">
+              <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                <p class="pt-3 mb-4 lh-2">I had an issue with a transaction and wasn't sure what to do. VijiPay's dispute resolution process was incredibly fair and transparent. They worked closely with both parties to find a solution we were all satisfied with. It's clear they prioritize customer satisfaction above all else.</p>
+                <ul class="d-flex list-unstyled mt-auto">
+                  <li class="me-auto">
+                    <img src="/assets/testimony-2.jpeg" alt="Abdul" width="40" height="40" class="rounded-circle border border-white">
+                  </li>
+                  <li class="d-flex align-items-center me-3">
+                    <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#geo-fill"></use></svg>
+                    <small>Abdul, Royal Technologies</small>
+                  </li>
+                  <li class="d-flex align-items-center">
+                    <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"></use></svg>
+                    <small>Kaduna</small>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg testimony-3" >
+              <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                <p class="pt-3 mb-4 lh-2">"As a buyer, VijiPay has been a game-changer. Knowing that my payment is held securely until I receive the product gives me peace of mind. The platform's excellent support and nationwide accessibility make shopping on Jiji Marketplace a breeze. I highly recommend VijiPay to all buyers!"</p>
+                <ul class="d-flex list-unstyled mt-auto">
+                  <li class="me-auto">
+                    <img src="/assets/testimony-3.jpeg" alt="Tosin" width="40" height="40" class="rounded-circle border border-white">
+                  </li>
+                  <li class="d-flex align-items-center me-3">
+                    <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#geo-fill"></use></svg>
+                    <small>Oluwatosin, Adegoke</small>
+                  </li>
+                  <li class="d-flex align-items-center">
+                    <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"></use></svg>
+                    <small>Ibadan</small>
                   </li>
                 </ul>
               </div>
             </div>
           </div>
     
-          <div class="col">
-            <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background-image: url('unsplash-photo-2.jpg');">
-              <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-                <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Much longer title that wraps to multiple lines</h3>
-                <ul class="d-flex list-unstyled mt-auto">
-                  <li class="me-auto">
-                    <img src="https://github.com/twbs.png" alt="Bootstrap" width="32" height="32" class="rounded-circle border border-white">
-                  </li>
-                  <li class="d-flex align-items-center me-3">
-                    <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#geo-fill"></use></svg>
-                    <small>Pakistan</small>
-                  </li>
-                  <li class="d-flex align-items-center">
-                    <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"></use></svg>
-                    <small>4d</small>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-    
-          <div class="col">
-            <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background-image: url('unsplash-photo-3.jpg');">
-              <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
-                <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Another longer title belongs here</h3>
-                <ul class="d-flex list-unstyled mt-auto">
-                  <li class="me-auto">
-                    <img src="https://github.com/twbs.png" alt="Bootstrap" width="32" height="32" class="rounded-circle border border-white">
-                  </li>
-                  <li class="d-flex align-items-center me-3">
-                    <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#geo-fill"></use></svg>
-                    <small>California</small>
-                  </li>
-                  <li class="d-flex align-items-center">
-                    <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"></use></svg>
-                    <small>5d</small>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
+          
         </div>
       </div>
 
@@ -194,7 +211,7 @@
             <div ngbAccordion [closeOthers]="true">
                 <div ngbAccordionItem *ngFor="let panel of panels" [collapsed]="panel !== 'First'">
                     <h2 ngbAccordionHeader>
-                        <button ngbAccordionButton>{{ panel.question }}</button>
+                        <button ngbAccordionButton><span class="color-viji">{{ panel.question }}</span></button>
                     </h2>
                     <div ngbAccordionCollapse>
                         <div class="text-bg-secondary" ngbAccordionBody>
@@ -217,7 +234,7 @@
             <p class="col-lg-8 mx-auto lead">
                 Ready to Expand Your Reach or Transact Securely on Jiji Marketplace? Get Started with VijiPay Today!
             </p>
-            <button class="btn btn-lg btn-warning">Create Escrow</button> &nbsp; &nbsp; <a class="text-white" href="#">Contact Support <i class="fa-solid fa-chevron-right"></i></a>
+            <a [routerLink]="['/create']"class="btn btn-lg btn-warning">Create Escrow</a> &nbsp; &nbsp; <a class="text-white" [routerLink]="['/support']">Contact Support <i class="fa-solid fa-chevron-right"></i></a>
           </div>
         </div>
       </div>
