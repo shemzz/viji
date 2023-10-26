@@ -8,6 +8,12 @@
                {{transaction.product.advert.title}}
              </h6>
              </div>
+             <div class="col-12">
+              <p>Buyer:</p>
+              <h6>
+                Name: {{buyer?.first_name}} {{buyer?.last_name}}, <a [href]="'tel:'+buyer?.phone">{{buyer?.phone | phoneNoTransform}}</a>
+              </h6>
+              </div>
  
                <div class="col-12">
                  <p>Product Description:</p>
@@ -21,9 +27,7 @@
                    <h6>
                      {{ transaction.transaction_details.amount | currency: '&#8358;' }}
                    </h6>
-                   <h6 *ngIf="transaction.status === 'created'" class="color-viji"  >
-                     <small>Buyer Protection Fee: </small> {{ transaction.transaction_details.escrow_fee | currency: '&#8358;' }}
-                   </h6>
+                  
                  </div>
                  <div class="col-12">
                    <p>Product Location:</p>

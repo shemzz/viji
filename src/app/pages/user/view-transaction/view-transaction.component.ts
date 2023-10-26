@@ -10,11 +10,12 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ReasonsForDispute } from 'src/app/helpers/disputeReasons.data';
 import { ReasonInterface } from 'src/app/interface/reason.interface';
 import { ToastrService } from 'ngx-toastr';
+import { PhoneNumberTransform } from 'src/app/pipes/phoneNumberTransform.pipe';
 
 @Component({
   selector: 'app-view-transaction',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, FormsModule, PaymentButtonComponent, RouterModule],
+  imports: [CommonModule, HttpClientModule, FormsModule, PaymentButtonComponent, RouterModule, PhoneNumberTransform],
   providers: [TransactionService],
   templateUrl: './view-transaction.component.html',
   styleUrls: ['./view-transaction.component.scss']
@@ -29,7 +30,7 @@ agreeToTermsOfUse: boolean = false;
   otherChecked = false;
   otherReason = '';
   selectedDisputes: any = [];
-  user: UserInterface = {
+  user: any = {
     name: 'Shemang',
     email: 'david@gmail.com',
     phone: '090123456'

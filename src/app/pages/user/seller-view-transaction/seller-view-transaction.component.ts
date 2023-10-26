@@ -2,11 +2,13 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { TransactionService } from 'src/app/services/transaction.service';
+import { UserService } from 'src/app/services/user.service';
+import { PhoneNumberTransform } from 'src/app/pipes/phoneNumberTransform.pipe';
 
 @Component({
   selector: 'app-seller-view-transaction',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, PhoneNumberTransform],
   providers: [TransactionService],
   templateUrl: './seller-view-transaction.component.html',
   styleUrls: ['./seller-view-transaction.component.scss']
@@ -16,12 +18,13 @@ export class SellerViewTransactionComponent {
   transactionId!: number;
   closeResult: any;
   transaction: any;
+  buyer: any;
 
-constructor(private route: ActivatedRoute, private transactionService: TransactionService){}
+  constructor(private route: ActivatedRoute, private transactionService: TransactionService, private userService: UserService){}
 
 ngOnInit(): void {
   this.extractIdFromRoute();
-  this.viewTransaction()
+  this.viewTransaction();
 }
   
 extractIdFromRoute() {
@@ -30,6 +33,21 @@ extractIdFromRoute() {
   });
 }
   
+  getBuyer() {
+    let id;
+    if (this.transaction) {
+    id = this.transaction.transaction_details.buyer_id
+    }
+    this.userService.getUser(id).subscribe({
+      next: res => {
+       this.buyer = res
+      },
+      error: err => {
+        console.log(err.error.message)
+      }
+    }
+    )
+}
 viewTransaction() {
   this.transactionService.getTransactionById(this.transactionId).subscribe({
     next: data => {
@@ -38,7 +56,8 @@ viewTransaction() {
     },
     error: err => {
       console.log(err)
-    }
+    },
+    complete: ()=> this.getBuyer()
   })
 }
   

@@ -7,25 +7,28 @@
                 <form #getJijiProduct="ngForm" (ngSubmit)="getProductFromJiji()" class="d-flex flex-column align-items-center" role="search">
                     <input class="form-control me-2" [(ngModel)]="productUrl" name="productUrl" required type="search" placeholder="copy the link from jiji & paste here" aria-label="Search">
                     <div class="w-40 my-2">
-                        <button class="btn btn-light" type="submit">Get Product</button>
+                        <button class="btn btn-light" type="submit">
+                          <span *ngIf="isLoading" class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                          <span role="status"> Get Product </span>
+                          </button>
                     </div>
                 </form>
             </div>
             <div *ngIf="productFetched && (!product?.seller.phone || message)">
-                <p class="text-center"><span *ngIf="message?.one" class="text-danger">{{message.one}} for <br/></span> <span class="fw-bold fs-5">{{product?.advert.title}}</span></p>
+                <p class="text-center"><span class="fw-bold fs-5">{{product?.advert.title}}</span></p>
                 <div class="d-flex">
                   <img [src]="product?.advert.images_data.thumbnails[0].url" [alt]="product?.advert.title" class="img-responsive mx-auto" height="150px">
                 </div>
-                <p *ngIf="message?.two" class="text-center small text-secondary">{{message.two}}</p>
+                <p *ngIf="message?.two" class="text-center small text-danger">{{message.one}}. {{message.two}}</p>
                 <p *ngIf="message?.three" class="text-center small text-secondary">{{message.three}}</p>
                 <form *ngIf="message?.three" #sellerPhoneNumber="ngForm" (ngSubmit)="updateSellerPhone()" class="d-flex flex-column align-items-center">
-                  <input class="form-control me-2 phone_number" [(ngModel)]="sellerPhone" name="sellerPhone" required type="phone" placeholder="paste seller's phone number here" aria-label="Search">
+                  <input class="form-control me-2 phone_number" (input)="checkPhoneFormat()" [(ngModel)]="sellerPhone" name="sellerPhone" required type="phone" placeholder="paste seller's phone number here" aria-label="Search">
+                  <p class="text-danger small" *ngIf="(sellerPhone && !correctFormat)">{{phoneMessage}}</p>
                   <div class="w-40 my-2">
-                    <button class="btn btn-viji btn-sm" type="submit">Save Number</button>
+                    <button [disabled]="!correctFormat" class="btn btn-viji btn-sm" type="submit">Save Number</button>
                   </div>
                 </form>
                 <div *ngIf="product.seller.phone"  class="w-40 my-5 d-flex flex-column justify-content-center">
-                  <p class="text-success text-center">Product is fully loaded!</p>
                     <button class="btn btn-viji btn-sm" (click)="showProductTobeEscrowed()" type="button">Continue</button>
                   </div>
               </div>
@@ -60,7 +63,7 @@
                       <h6 class="text-center">
                         {{ product.advert.price.value | currency: '&#8358;' }}
                       </h6>
-                      <h6 *ngIf="negotiatedPrice" class="text-center color-viji">
+                      <h6 *ngIf="negotiated && negotiatedPrice" class="text-center color-viji">
                         <small>New Price: </small> {{ negotiatedPrice | currency: '&#8358;' }}
                       </h6>
                       <div class="form-check item">
@@ -109,7 +112,10 @@
                       </h6>
                       </div>
                     <div class="col-12 item mt-2">
-                      <button [disabled]="requireDelivery && whoPaysForDelivery === ''" type="button" class="btn bg-viji" (click)="createEscrowTransaction()">Create Escrow</button>
+                      <button [disabled]="requireDelivery && whoPaysForDelivery === ''" type="button" class="btn bg-viji" (click)="createEscrowTransaction()">
+                        <span *ngIf="isLoading" class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                        <span role="status"> Create Escrow </span>
+                        </button>
                       </div>
               </div>
           </div>

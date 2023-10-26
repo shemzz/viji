@@ -8,6 +8,7 @@ import { NgxCurrencyDirective } from 'ngx-currency';
 import { Router, RouterModule } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { LocalService } from 'src/app/services/local.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-create',
@@ -19,6 +20,8 @@ import { LocalService } from 'src/app/services/local.service';
 })
 export class CreateComponent implements OnInit{
   user: any;
+  correctFormat: boolean = false;
+  phoneMessage: string = '';
   sellerPhone: any;
   message: MessageInterface = {};
   productUrl: string = '';
@@ -32,8 +35,9 @@ export class CreateComponent implements OnInit{
   deliveryRegion: string = '';
   txId!: number;
   userId!: number;
+  isLoading: boolean = false;
   
-  constructor(private transactionService: TransactionService, private router: Router, private locaService: LocalService) { 
+  constructor(private transactionService: TransactionService, private router: Router, private locaService: LocalService, private toastr: ToastrService) { 
 
   }
   ngOnInit(): void {
@@ -41,38 +45,46 @@ export class CreateComponent implements OnInit{
   }
 
   getProductFromJiji() {
+    this.isLoading = true
     this.productFetched = false;
     this.message = {};
     this.transactionService.getProductFromJiji(this.productUrl).subscribe({
       next: data => {
         this.productFetched = true;
+        this.isLoading = false;
         this.message = data.message;
         this.product = data.product;
       },
       error: error => {
+        this.isLoading = false;
         console.error('There was an error!', error);
       }
     });
   }
   
   updateSellerPhone() {
-    this.sellerPhone = this.formatPhoneNumber(this.sellerPhone);
+    this.sellerPhone = this.locaService.formatPhoneNumber(this.sellerPhone);
     this.product.seller.phone = this.sellerPhone;
     this.message = {};
   }
   
-  formatPhoneNumber(phoneNumber: string): string {
-    // Remove leading zero and ensure it's at least 11 characters long
-    if (phoneNumber.length >= 11 && phoneNumber.startsWith('0')) {
-      phoneNumber = phoneNumber.slice(1);
+  checkPhoneFormat() {
+    this.correctFormat = false; // Set it to false initially
+    this.phoneMessage = 'Invalid phone number';
+    if (this.sellerPhone.length === 11 && this.sellerPhone.startsWith('0')) {
+      this.correctFormat = true;
+      this.phoneMessage = '';
     }
-    // Check if the phone number is in the format +234...
-    if (phoneNumber.startsWith('+234') && phoneNumber.length === 14) {
-      return phoneNumber;
+  
+    if (this.sellerPhone.startsWith('+234') && this.sellerPhone.length === 14) {
+      this.correctFormat = true;
+      this.phoneMessage = '';
     }
-    // Default case: assume it's a local number, prepend +234
-    return '+234' + phoneNumber;
+    if (this.sellerPhone.length < 11) {
+      this.phoneMessage = 'Phone number is not complete'
+    }
   }
+  
   
   showProductTobeEscrowed() {
     this.isProductFullyLoaded = !this.isProductFullyLoaded;
@@ -99,6 +111,7 @@ export class CreateComponent implements OnInit{
   }
 
   createEscrowTransaction() {
+    this.isLoading = true
     const transaction = {
       buyer_id: this.user.id,
       produc_amount: this.product.advert.price.value,
@@ -113,11 +126,15 @@ export class CreateComponent implements OnInit{
     if (this.user != undefined) {
       this.transactionService.createEscrow(this.product, transaction).subscribe({
         next: data => {
+          this.isLoading = false;
           console.log(data.message)
           this.txId = data.id;
+          this.toastr.success(data.message, 'Success')
         },
-        error:err => {
-            console.error(err)
+        error: err => {
+          this.isLoading = false;
+          console.error(err)
+          this.toastr.error(err.error.message, 'Error')
         },
         complete: () => {
           setTimeout(() => {

@@ -27,6 +27,25 @@ export class LocalService {
     }
   }
 
+  formatPhoneNumber(phoneNumber: string): string {
+    // Remove leading zero and ensure it's at least 11 characters long
+    if (phoneNumber.length === 11 && phoneNumber.startsWith('0')) {
+      phoneNumber = phoneNumber.slice(1);
+      return '+234' + phoneNumber;
+    }
+    // Check if the phone number is in the format +234...
+    if (phoneNumber.startsWith('+234') && phoneNumber.length === 14) {
+      return phoneNumber;
+    }
+
+    // Check if the phone number is in the format +234...
+    if (phoneNumber.startsWith('234') && phoneNumber.length === 13) {
+      return '+'+phoneNumber;
+    }
+
+    throw new Error('Invalid phone number');
+  }
+
   public setLoggedInStatus(value: boolean): void {
     this._userIsLoggedIn$.next(value)
   }

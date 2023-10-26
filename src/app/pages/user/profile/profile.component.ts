@@ -59,8 +59,7 @@ export class ProfileComponent implements OnInit {
         this.currentUser = res;
       },
       error: err => {
-        console.error(err)
-        this.message = err.error.name;
+        this.logout()
       }
     })
   }
@@ -123,23 +122,9 @@ formatter = (bank: any) => bank.name;
    }
   
 
-   logout(): void {
-    this.userService.logout().subscribe({
-      next: res => {
-        console.log(res);
-        this.localService.clean();
+  logout(): void {
+    this.localService.clean();
         this.localService.setLoggedInStatus(false);
-        window.location.reload();
-      },
-      error: err => {
-        console.log(err);
-      }, complete: () => {
-          this.localService.isLoggedIn().subscribe(value => {
-      if (value === true) {
-        window.location.reload()
-      }
-    })
-      }
-    });
+    window.location.reload();
   }
 }

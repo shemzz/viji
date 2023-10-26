@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
 import { UserInterface } from 'src/app/interface/user.interface';
 import { ToastrService } from 'ngx-toastr';
+import { LocalService } from 'src/app/services/local.service';
 
 
 @Component({
@@ -25,10 +26,22 @@ export class RegisterComponent {
   acceptTerms: boolean = false;
   loading: boolean = false;
 
-  constructor(private userService: UserService, private toastr: ToastrService, private router: Router) { }
+  constructor(private userService: UserService, private toastr: ToastrService, private router: Router, private localService: LocalService) { }
+  
+  formatPhone(phone: any) {
+    try {
+     return this.localService.formatPhoneNumber(phone)
+    } catch (error: any) {
+      return error.message; // Handle the error here
+    }
+  }
+
   
   register() {
+    const formattedPhone = this.formatPhone(this.user.phone)
     this.loading = true
+    this.user.phone = formattedPhone;
+    console.table(this.user)
     this.userService.register(this.user).subscribe({
       next: res => {
         this.toastr.success(res.message, 'Success', { progressBar: true });

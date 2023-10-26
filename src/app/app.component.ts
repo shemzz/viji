@@ -14,17 +14,32 @@ import { Subscription } from 'rxjs';
 export class AppComponent {
   title = 'viji';
   isLoggedIn: any;
-  username?: string;
+  user!: any;
   eventBusSub?: Subscription;
 
   constructor(private userService: UserService, private router: Router, private toastr: ToastrService, private eventBusService: EventBusService, public localService: LocalService) { }
 
   ngOnInit(): void {
     this.isLoggedIn = this.localService.isLoggedIn();
+    
+    if (this.isLoggedIn) {
+      this.user = this.localService.getLoggedInUser();
+    }
 
     this.eventBusSub = this.eventBusService.on('logout', () => {
       this.logout();
     });
+  }
+
+  sendCode() {
+    this.userService.sendVerificationCode(this.user.email).subscribe({
+      next: res => {
+        this.toastr.info(res.message, 'Sent!')
+      },
+      error: err => {
+        this.toastr.error(err.error.message, 'Error')
+      }
+    })
   }
   
   logout(): void {

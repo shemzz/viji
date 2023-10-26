@@ -12,7 +12,8 @@ class="btn bg-viji btn-lg btn-rounded centered"
 (onClose)="cancelPayment(reference)"
 (callback)="checkPaymentStatus(reference)"
 >
-Pay into Escrow
+<span *ngIf="loading" class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+<span role="status"> Pay into Escrow </span>
 </button>
 
   </div>

@@ -23,7 +23,7 @@ export class UserService {
   register(data: UserInterface): Observable<any> {
     return this.http.post(`${url}signup`, data, httpOptions)
   }
-  login(data: UserInterface): Observable<any>{
+  login(data: any): Observable<any>{
     return this.http.post(`${url}signin`, data, httpOptions)
   }
   forgotPassword(ref: string): Observable<any>{

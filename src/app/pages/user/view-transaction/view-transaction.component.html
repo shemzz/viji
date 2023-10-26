@@ -11,7 +11,7 @@
             <div class="col-12">
               <p>Seller:</p>
               <h6>
-                Name: {{transaction.product.seller.name}}, {{transaction.product.seller.phone}}
+                Name: {{transaction.product.seller.name}}, <a [href]="'tel:'+transaction.product.seller.phone">{{transaction.product.seller.phone | phoneNoTransform}}</a>
               </h6>
               </div>
 
@@ -56,7 +56,7 @@
                 <app-payment-button *ngIf="transaction.status === 'created'" [amount]="amountToPay()" [transaction]="transaction" [terms]="agreeToTermsOfUse" ></app-payment-button>
 
                 <div *ngIf="transaction.status === 'started' || transaction.status === 'pending' || transaction.status === 'dispute'" class="item flex-column">
-                  <button class="btn btn-success my-2 btn-lg" (click)="open(content)">{{transaction.status === 'dispute' ? 'Ignore Dispute & Complete' : 'I have received my Product'}}</button>
+                  <button *ngIf="transaction.status !== 'dispute'"  class="btn btn-success my-2 btn-lg" (click)="open(content)">I have received my Product</button>
 
                   <a [routerLink]="['/dispute/'+ transaction.id]"  *ngIf="transaction.status === 'dispute'" class="btn btn-secondary btn-sm">View Dispute Decision</a>
 

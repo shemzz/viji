@@ -5,6 +5,7 @@ import { PaymentService } from 'src/app/services/payment.service';
 import { Angular4PaystackModule } from 'angular4-paystack';
 import { HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-payment-button',
@@ -19,18 +20,19 @@ export class PaymentButtonComponent  implements OnInit{
   @Input() terms: any;
   @Input() amount: number = 0;
   amt: number = 0;
+  loading: boolean = false;
   agreeToTermsOfUse: boolean = false;
   transactionId!: number;
   reference!: any;
   metadata: {} = {};
-  user: UserInterface = {
+  user: any = {
     name: 'Shemang',
     email: 'david@gmail.com',
     phone: '090123456'
   }
 
 
-constructor(private paymentService: PaymentService, private router: Router){}
+constructor(private paymentService: PaymentService, private router: Router, private toastr: ToastrService){}
   
   ngOnInit(): void {
     this.amt = parseInt(this.amount + '00')
@@ -67,7 +69,7 @@ constructor(private paymentService: PaymentService, private router: Router){}
   }
 
   initializePayment() {
-    console.log(this.reference)
+    this.loading = true;
     // create metadata
     this.metadata = {
       product: this.transaction.product.advert.title,
@@ -77,7 +79,9 @@ constructor(private paymentService: PaymentService, private router: Router){}
   }
   
   cancelPayment(reference: string) {
-    console.log('cancellws', reference)
+    this.toastr.info('You cancelled a payment', 'Cancelled!')
+    console.log('cancelled', reference)
+    this.loading = false;
     
     //delete the transaction with reference from DB because payment was cancelled
   }
@@ -86,9 +90,6 @@ constructor(private paymentService: PaymentService, private router: Router){}
     this.router.navigate([`/transaction/${this.transaction.id}/payment/validate`], { queryParams: { ref: ref } })
     
     }
-makePayment() {
-throw new Error('Method not implemented.');
-}
   
 }
 

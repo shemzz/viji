@@ -4,7 +4,6 @@ import { Router, RouterModule } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
-import { CookieService } from 'ngx-cookie-service';
 import { LocalService } from 'src/app/services/local.service';
 
 @Component({
