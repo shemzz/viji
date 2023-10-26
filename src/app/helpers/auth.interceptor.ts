@@ -44,7 +44,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     if (!this.isRefreshing) {
       this.isRefreshing = true;
 
-      if (this.localService.isLoggedIn().subscribe()) {
+      if (this.localService.isLoggedIn()) {
         return this.userService.refreshToken().pipe(
           switchMap(() => {
             this.isRefreshing = false;
@@ -68,6 +68,6 @@ export class HttpRequestInterceptor implements HttpInterceptor {
   }
 }
 
-export const httpInterceptorProviders = [
+export const authInterceptorProviders = [
   { provide: HTTP_INTERCEPTORS, useClass: HttpRequestInterceptor, multi: true },
 ];

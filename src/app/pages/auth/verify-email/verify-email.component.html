@@ -1,0 +1,18 @@
+<div class="overflow-hidden d-flex justify-content-center mt-5">
+    <div class="row">
+        <div class="col-md-8 text-center px-4 mt-5">
+            <h1 class="card-title">Please confirm your email address</h1>
+            <h6 class="card-subtitle my-4 text-body-secondary">Thanks for registering as a vijipay {{user}}!</h6>
+            <p>To finish signin up, please confirm your email address. This ensures we have the right
+                email incase we need to contact you.</p>
+                <p class="color-viji">{{message}}</p>
+            <button (click)="sendVerificationCode()" class="btn viji-gradient mt-5">
+                <div *ngIf="loading" class="spinner-border spinner-border-sm" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                Confirm email address</button>
+
+            <p class="mt-4">Thanks, <br /> VijiPay Team!</p>
+        </div>
+    </div>
+</div>

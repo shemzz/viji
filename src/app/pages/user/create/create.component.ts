@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { FormsModule } from '@angular/forms';
@@ -7,6 +7,7 @@ import { MessageInterface } from 'src/app/interface/message.interface';
 import { NgxCurrencyDirective } from 'ngx-currency';
 import { Router, RouterModule } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { LocalService } from 'src/app/services/local.service';
 
 @Component({
   selector: 'app-create',
@@ -16,8 +17,8 @@ import { CookieService } from 'ngx-cookie-service';
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.scss']
 })
-export class CreateComponent {
-
+export class CreateComponent implements OnInit{
+  user: any;
   sellerPhone: any;
   message: MessageInterface = {};
   productUrl: string = '';
@@ -32,9 +33,11 @@ export class CreateComponent {
   txId!: number;
   userId!: number;
   
-  constructor(private transactionService: TransactionService, private router: Router, private cookieService: CookieService) { 
-    this.userId = parseInt(this.cookieService.get('_userId_'));
+  constructor(private transactionService: TransactionService, private router: Router, private locaService: LocalService) { 
 
+  }
+  ngOnInit(): void {
+    this.user = this.locaService.getLoggedInUser();
   }
 
   getProductFromJiji() {
@@ -97,7 +100,7 @@ export class CreateComponent {
 
   createEscrowTransaction() {
     const transaction = {
-      buyer_id: this.userId,
+      buyer_id: this.user.id,
       produc_amount: this.product.advert.price.value,
       amount: this.negotiatedPrice ? this.negotiatedPrice : this.product.advert.price.value,
       escrow_fee: this.calculateEscrowFee(),
@@ -107,20 +110,26 @@ export class CreateComponent {
       delivery_region: this.deliveryRegion,
     }
 
-    this.transactionService.createEscrow(this.product, transaction).subscribe({
-      next: data => {
-        console.log(data.message)
-        this.txId = data.id;
-      },
-      error:err => {
-          console.error(err)
-      },
-      complete: () => {
-        setTimeout(() => {
-          this.router.navigate([`/transaction/${this.txId}`]);
-        }, 2000);
-      }
-    })
+    if (this.user != undefined) {
+      this.transactionService.createEscrow(this.product, transaction).subscribe({
+        next: data => {
+          console.log(data.message)
+          this.txId = data.id;
+        },
+        error:err => {
+            console.error(err)
+        },
+        complete: () => {
+          setTimeout(() => {
+            this.router.navigate([`/transaction/${this.txId}`]);
+          }, 2000);
+        }
+      })
+    } else {
+      this.router.navigate(['auth/login']);
+     }
+    
+    
     }
   
 }

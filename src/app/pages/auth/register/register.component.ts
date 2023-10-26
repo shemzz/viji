@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { FormsModule, NgForm } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
-import { HttpClientModule } from '@angular/common/http';
 import { UserInterface } from 'src/app/interface/user.interface';
-import { provideAnimations } from '@angular/platform-browser/animations';
-import { ToastrService, provideToastr } from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -24,33 +22,30 @@ export class RegisterComponent {
     password: '',
     isSeller: false
   }
+  acceptTerms: boolean = false;
+  loading: boolean = false;
 
-  constructor(private userService: UserService, private toastr: ToastrService) { }
+  constructor(private userService: UserService, private toastr: ToastrService, private router: Router) { }
   
   register() {
+    this.loading = true
     this.userService.register(this.user).subscribe({
       next: res => {
-        console.log(res)
-        this.toastr.success(res.message, 'Success', {progressBar: true})
+        this.toastr.success(res.message, 'Success', { progressBar: true });
       },
       error: err => {
         console.log(err.error.message)
         this.toastr.error(err.error.message, 'Error')
+        this.loading = false
       },
-      complete: ()=> console.log('proceed to verify email component')
+      complete: ()=> this.router.navigate(['/auth/verify-email/'], { queryParams: { user: this.user.isSeller ? 'seller' : 'buyer', email: this.user.email } })
     })
   }
 
-  CheckUserType() {
-    
-    if (this.user.isSeller) {
-      this.user.isSeller = true;
-      console.log('User is a seller');
-      // Additional actions when user is a seller
-    } else {
-      console.log('User is not a seller');
-      this.user.isSeller = false;
-      // Additional actions when user is not a seller
-    }
+  CheckUserType(event: Event) {
+    this.user.isSeller = (event.target as HTMLInputElement).checked;
+  }
+  onAcceptTerms(event: Event) {
+    this.acceptTerms = (event.target as HTMLInputElement).checked;
   }
 }

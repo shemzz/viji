@@ -35,7 +35,15 @@
                    <p>Delivery Details</p>
                    <h6>This product is at <strong>{{transaction.product.advert.region_text}}</strong> and will be delivered to buyer at <strong>{{transaction.transaction_details.delivery_region}}</strong> and delivery cost will be paid by {{transaction.transaction_details.who_pays_for_delivery}}</h6>
                  </div>
- 
+
+                 <p *ngIf="transaction.status === 'created'" class="my-5">Waiting for buyer to Pay
+                  </p>
+
+                  <p *ngIf="transaction.status === 'started'" class="my-5">Buyer has paid. Please Send the Item to the Buyer
+                  </p>
+
+                  <p *ngIf="transaction.status === 'dispute'" class="my-5 text-danger">There is a dispute on this transaction. See the <a [routerLink]="'/dispute/'+transactionId">Dispute Details</a>
+                  </p>
                    <p *ngIf="transaction.status === 'completed'" class="my-5">This Transaction is Marked Complete <br /> 
                    <span class="text-body-secondary">Payment has been sent to your account</span>
                    </p>

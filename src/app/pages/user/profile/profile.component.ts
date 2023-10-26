@@ -36,31 +36,32 @@ export class ProfileComponent implements OnInit {
   constructor(private userService: UserService, private router: Router, private toastr: ToastrService, private eventBusService: EventBusService, public localService: LocalService) { }
 
   ngOnInit(): void {
-    this.localService.isLoggedIn().subscribe(value => {
-      if (value === false) {
-        this.router.navigate(['/auth/login'])
-      }
-    })
     this.user = this.localService.getLoggedInUser();
     this.getLoggedInUser(this.user.id);
-
-    // this.eventBusSub = this.eventBusService.on('logout', () => { this.logout() });
+    this.eventBusSub = this.eventBusService.on('logout', () => {
+      this.logout();
+    })
   }
   
   toggleEditMode() {
     this.editMode = !this.editMode;
+    if (this.currentUser.isSeller) {
+      this.getBanks();   
+    }
   }
 
   getLoggedInUser(id: number) {
     return this.userService.getUser(id).subscribe({
       next: res => {
-        this.currentUser = res.user;
+        if (res.user === null) {
+          this.logout()
+        }
+        this.currentUser = res;
       },
       error: err => {
-        console.error(err.error.name)
+        console.error(err)
         this.message = err.error.name;
-      },
-      complete: () => this.getBanks()
+      }
     })
   }
 
@@ -71,7 +72,7 @@ export class ProfileComponent implements OnInit {
         this.banks = res;
       },
       error: err => {
-        console.error('Error retrieveing banks')
+        console.error('Error retrieving banks')
       }
   })
   }
@@ -111,22 +112,34 @@ formatter = (bank: any) => bank.name;
   updateProfile() {
     this.userService.updateUser(this.currentUser, this.user.id).subscribe({
       next: res => {
+        this.currentUser = res.user
         this.toastr.success(res.message, 'Success');
       },
       error: err => {
         this.toastr.error(err.error.message, 'Error');
-      }
+      },
+      complete: ()=> this.toggleEditMode()
 })
    }
   
 
-  logout() {
-    this.localService.clean();
-    this.localService.setLoggedInStatus(false);
-    // this.localService.isLoggedIn().subscribe(value => {
-    //   if (value === true) {
-    //     window.location.reload()
-    //   }
-    // })
-}
+   logout(): void {
+    this.userService.logout().subscribe({
+      next: res => {
+        console.log(res);
+        this.localService.clean();
+        this.localService.setLoggedInStatus(false);
+        window.location.reload();
+      },
+      error: err => {
+        console.log(err);
+      }, complete: () => {
+          this.localService.isLoggedIn().subscribe(value => {
+      if (value === true) {
+        window.location.reload()
+      }
+    })
+      }
+    });
+  }
 }

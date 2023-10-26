@@ -28,9 +28,8 @@ export class TransactionsComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.localService.isLoggedIn().subscribe(value => {
-      if (value === true) {
-        this.user = this.localService.getLoggedInUser();
+    this.user = this.localService.getLoggedInUser();
+
         this.transactionService.getUserTransactions(this.user.id).subscribe({
           next: res => {
             this.transactions = res.transactions;
@@ -41,10 +40,6 @@ export class TransactionsComponent implements OnInit{
             console.log(err);
           }
          }) 
-      } else {
-        this.message= 'You must log in first!'
-      }
-    })
   }
   get activeTransactions() {
     return this.transactions?.filter((transaction: any) => transaction.status === 'created' || transaction.status === 'pending' || transaction.status === 'started');

@@ -46,6 +46,11 @@ export class TransactionService {
     return this.http.post(`${url}dispute/create/${id}`, issue, httpOptions);
   }
 
+  endDispute(reason: any, id: number): Observable<any>{
+    console.log(reason)
+    return this.http.post(`${url}dispute/end/${id}`, reason, httpOptions);
+  }
+
   getDisputesForUser(id: number): Observable<any>{
     return this.http.get(`${url}disputes/${id}`, httpOptions)
   }

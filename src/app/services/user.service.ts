@@ -1,10 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { customAlphabet } from 'nanoid';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { UserInterface } from '../interface/user.interface';
-import { CookieService } from 'ngx-cookie-service';
 
 
 const url = environment.apiUrl;
@@ -30,6 +28,12 @@ export class UserService {
   }
   forgotPassword(ref: string): Observable<any>{
     return this.http.post(`${url}paymentstatus`, {ref: ref}, httpOptions)
+  }
+  sendVerificationCode(email: string): Observable<any>{
+    return this.http.post(`${url}sendverificationcode`, {email: email}, httpOptions)
+  }
+  confirmEmailAddress(code: string): Observable<any>{
+    return this.http.get(`${url}confirmemail/${code}`, httpOptions)
   }
   resetPassword(ref: string): Observable<any>{
     return this.http.post(`${url}paymentstatus`, {ref: ref}, httpOptions)

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { TransactionService } from 'src/app/services/transaction.service';
+import { LocalService } from 'src/app/services/local.service';
 
 @Component({
   selector: 'app-dispute-detail',
@@ -14,13 +15,17 @@ import { TransactionService } from 'src/app/services/transaction.service';
 export class DisputeDetailComponent implements OnInit {
   disputeId!: number;
   dispute: any;
+  buyer: any;
+  seller: any;
   message: string = 'Fetching Dispute Details...'
+  user: any;
 
-  constructor(private route: ActivatedRoute, private transactionService: TransactionService) { }
+  constructor(private route: ActivatedRoute, private transactionService: TransactionService, private localService: LocalService) { }
   
   ngOnInit(): void {
     this.extractIdFromRoute();
     this.getDispute(this.disputeId);
+    this.user = this.localService.getLoggedInUser();
   }
 
   extractIdFromRoute() {
@@ -31,11 +36,25 @@ export class DisputeDetailComponent implements OnInit {
   getDispute(id: number) {
     this.transactionService.getDisputeById(id).subscribe({
       next: res => {
-        this.dispute = res
+        this.dispute = res.dispute;
         console.log(this.dispute)
+        this.buyer = res.buyer;
+        this.seller = res.seller
       },
       error: err => {
         console.error(err)
+        this.message = err.error.error;
+      }
+    })
+  }
+
+  endDispute() {
+    this.transactionService.endDispute('', this.disputeId).subscribe({
+      next: res => {
+        console.log(res)
+      },
+      error: err => {
+        console.error(err);
         this.message = err.error.error;
       }
     })

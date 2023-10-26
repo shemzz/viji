@@ -6,8 +6,9 @@
         <!-- Your transaction content here -->
         <div class="d-flex w-100 justify-content-between">
           <small class="mb-1"><span class="color-viji">Dispute No: </span> <strong class="h6"> {{dispute.id}}</strong></small>
-          <small class="text-body-secondary"><span class="color-viji">status: </span> <strong> {{dispute.status | uppercase}}</strong></small>
+          <small class="text-body-secondary"><span class="color-viji">status: </span> <strong> {{dispute.status | uppercase}} </strong> </small>
         </div>
+        <p class="mb-1" *ngIf="dispute.decision != null"><strong>Decision:</strong> {{dispute.decision}}</p>
         <p class="mb-1">{{dispute.title}}</p>
       </a>
 </div>

@@ -11,10 +11,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 import { httpInterceptorProviders } from './helpers/http.interceptor';
+import { authInterceptorProviders } from './helpers/auth.interceptor';
+import { VerifyEmailComponent } from './components/pages/auth/verify-email/verify-email.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    VerifyEmailComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,7 +36,7 @@ import { httpInterceptorProviders } from './helpers/http.interceptor';
     BrowserAnimationsModule
 
   ],
-  providers: [ToastrService, CookieService, httpInterceptorProviders],
+  providers: [ToastrService, CookieService, httpInterceptorProviders, authInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
