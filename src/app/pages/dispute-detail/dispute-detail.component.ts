@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { LocalService } from 'src/app/services/local.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-dispute-detail',
@@ -20,7 +21,9 @@ export class DisputeDetailComponent implements OnInit {
   message: string = 'Fetching Dispute Details...'
   user: any;
 
-  constructor(private route: ActivatedRoute, private transactionService: TransactionService, private localService: LocalService) { }
+  constructor(private route: ActivatedRoute, private transactionService: TransactionService, private localService: LocalService, private title: Title) {
+    this.title.setTitle(this.dispute?.title || 'Disputes Vijipay' )
+   }
   
   ngOnInit(): void {
     this.extractIdFromRoute();

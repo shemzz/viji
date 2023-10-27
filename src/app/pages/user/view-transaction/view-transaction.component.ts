@@ -11,6 +11,7 @@ import { ReasonsForDispute } from 'src/app/helpers/disputeReasons.data';
 import { ReasonInterface } from 'src/app/interface/reason.interface';
 import { ToastrService } from 'ngx-toastr';
 import { PhoneNumberTransform } from 'src/app/pipes/phoneNumberTransform.pipe';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-view-transaction',
@@ -21,7 +22,7 @@ import { PhoneNumberTransform } from 'src/app/pipes/phoneNumberTransform.pipe';
   styleUrls: ['./view-transaction.component.scss']
 })
 export class ViewTransactionComponent implements OnInit {
- 
+  loading: boolean = false;
 agreeToTermsOfUse: boolean = false;
   transactionId!: number;
   closeResult: any;
@@ -37,7 +38,9 @@ agreeToTermsOfUse: boolean = false;
   }
 
 
-constructor(private route: ActivatedRoute, private transactionService: TransactionService, private modalService: NgbModal, private toastr: ToastrService, private router: Router){}
+  constructor(private route: ActivatedRoute, private transactionService: TransactionService, private modalService: NgbModal, private toastr: ToastrService, private router: Router, private title: Title) {
+    this.title.setTitle('Transaction | vijiPay')
+}
 
 ngOnInit(): void {
   this.extractIdFromRoute();
@@ -114,17 +117,23 @@ viewTransaction() {
   }
   
   reportTransaction() {
+    this.loading = true;
     this.otherReason !== '' ? this.addOtherIssueToList(13) : '';
     this.transactionService.reportTransaction(this.selectedDisputes, this.transactionId).subscribe({
       next: res => {
         if (res.message == 'Dispute Created') {
           this.toastr.info(res.message, "Done!")
           this.handleSuccess();
+          
         }
       },
       error: err => {
         this.toastr.error(err.error.message, "Error")
         console.error(err)
+      },
+      complete: () => {
+        this.loading = false;
+        this.modalService.dismissAll()
       }
     })
   }

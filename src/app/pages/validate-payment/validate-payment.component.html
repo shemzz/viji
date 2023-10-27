@@ -2,6 +2,9 @@
     <div class="col-md-10" *ngIf="loading; else done">
         <div class="card card-icon-bg card-icon-bg-primary o-hidden mb-4">
           <div class="card-body text-center mt-4 d-flex flex-column justify-content-center align-items-center">
+              <div class="spinner-border my-3" style="width: 3rem; height: 3rem;" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
                 <div class="spinner-bubble spinner-bubble-info my-2"></div>
               <p class="text-muted my-4 text-24 mb-0">{{status}}</p>
               <p class="lead color-viji my-2">{{message}}</p>

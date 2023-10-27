@@ -9,6 +9,7 @@ import { Router, RouterModule } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { LocalService } from 'src/app/services/local.service';
 import { ToastrService } from 'ngx-toastr';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-create',
@@ -37,8 +38,8 @@ export class CreateComponent implements OnInit{
   userId!: number;
   isLoading: boolean = false;
   
-  constructor(private transactionService: TransactionService, private router: Router, private locaService: LocalService, private toastr: ToastrService) { 
-
+  constructor(private transactionService: TransactionService, private router: Router, private locaService: LocalService, private toastr: ToastrService, private title: Title) { 
+    this.title.setTitle('Create Escrow Transaction')
   }
   ngOnInit(): void {
     this.user = this.locaService.getLoggedInUser();
@@ -98,13 +99,13 @@ export class CreateComponent implements OnInit{
       } else if (this.negotiatedPrice < 10000) {
         return 500;
       } else {
-        return this.negotiatedPrice * 0.05
+        return Math.ceil(this.negotiatedPrice * 0.05)
       }
     } else {
       if (this.product.advert.price.value >= 100000) {
         return 5000;
       } else {
-        return this.product.advert.price.value * 0.05
+        return Math.ceil(this.product.advert.price.value * 0.05)
       }
     }
 

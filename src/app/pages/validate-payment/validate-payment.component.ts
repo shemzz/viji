@@ -4,6 +4,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { PaymentService } from 'src/app/services/payment.service';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { HttpClientModule } from '@angular/common/http';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-validate-payment',
@@ -21,7 +22,9 @@ export class ValidatePaymentComponent {
   item: any;
 
 
-  constructor(private route: ActivatedRoute, private paymentService: PaymentService, private transactionService: TransactionService, private router: Router){}
+  constructor(private route: ActivatedRoute, private paymentService: PaymentService, private transactionService: TransactionService, private router: Router, private title: Title) {
+    this.title.setTitle('Validate payment | vijiPay')
+  }
 
   ngOnInit(): void {
 

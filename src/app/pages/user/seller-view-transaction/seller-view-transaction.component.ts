@@ -4,6 +4,7 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { UserService } from 'src/app/services/user.service';
 import { PhoneNumberTransform } from 'src/app/pipes/phoneNumberTransform.pipe';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-seller-view-transaction',
@@ -20,7 +21,9 @@ export class SellerViewTransactionComponent {
   transaction: any;
   buyer: any;
 
-  constructor(private route: ActivatedRoute, private transactionService: TransactionService, private userService: UserService){}
+  constructor(private route: ActivatedRoute, private transactionService: TransactionService, private userService: UserService, private title: Title) {
+    this.title.setTitle('Seller Transactions | vijiPay')
+  }
 
 ngOnInit(): void {
   this.extractIdFromRoute();

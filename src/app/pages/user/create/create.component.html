@@ -16,21 +16,18 @@
             </div>
             <div *ngIf="productFetched && (!product?.seller.phone || message)">
                 <p class="text-center"><span class="fw-bold fs-5">{{product?.advert.title}}</span></p>
-                <div class="d-flex">
-                  <img [src]="product?.advert.images_data.thumbnails[0].url" [alt]="product?.advert.title" class="img-responsive mx-auto" height="150px">
-                </div>
+                  <img [src]="product?.advert.images_data.thumbnails[0].url" [alt]="product?.advert.title" class="d-block rounded mx-auto" height="300px">
                 <p *ngIf="message?.two" class="text-center small text-danger">{{message.one}}. {{message.two}}</p>
                 <p *ngIf="message?.three" class="text-center small text-secondary">{{message.three}}</p>
                 <form *ngIf="message?.three" #sellerPhoneNumber="ngForm" (ngSubmit)="updateSellerPhone()" class="d-flex flex-column align-items-center">
-                  <input class="form-control me-2 phone_number" (input)="checkPhoneFormat()" [(ngModel)]="sellerPhone" name="sellerPhone" required type="phone" placeholder="paste seller's phone number here" aria-label="Search">
+                  <input class="form-control me-2 phone_number w-50" (input)="checkPhoneFormat()" [(ngModel)]="sellerPhone" name="sellerPhone" required type="phone" placeholder="enter seller's phone no." aria-label="Search">
                   <p class="text-danger small" *ngIf="(sellerPhone && !correctFormat)">{{phoneMessage}}</p>
                   <div class="w-40 my-2">
                     <button [disabled]="!correctFormat" class="btn btn-viji btn-sm" type="submit">Save Number</button>
                   </div>
                 </form>
-                <div *ngIf="product.seller.phone"  class="w-40 my-5 d-flex flex-column justify-content-center">
-                    <button class="btn btn-viji btn-sm" (click)="showProductTobeEscrowed()" type="button">Continue</button>
-                  </div>
+
+                    <button *ngIf="product.seller.phone" class="btn btn-viji w-auto mx-auto px-4 mt-5 d-block" (click)="showProductTobeEscrowed()" type="button">Continue</button>
               </div>
         </div>
         <ng-template #productLoaded>

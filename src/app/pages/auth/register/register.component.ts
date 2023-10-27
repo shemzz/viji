@@ -6,6 +6,7 @@ import { UserService } from 'src/app/services/user.service';
 import { UserInterface } from 'src/app/interface/user.interface';
 import { ToastrService } from 'ngx-toastr';
 import { LocalService } from 'src/app/services/local.service';
+import { Title } from '@angular/platform-browser';
 
 
 @Component({
@@ -26,7 +27,9 @@ export class RegisterComponent {
   acceptTerms: boolean = false;
   loading: boolean = false;
 
-  constructor(private userService: UserService, private toastr: ToastrService, private router: Router, private localService: LocalService) { }
+  constructor(private userService: UserService, private toastr: ToastrService, private router: Router, private localService: LocalService, private title: Title) { 
+    this.title.setTitle('Register on vijiPay')
+  }
   
   formatPhone(phone: any) {
     try {

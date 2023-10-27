@@ -7,6 +7,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { RouterModule } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { LocalService } from 'src/app/services/local.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-transactions',
@@ -24,7 +25,8 @@ export class TransactionsComponent implements OnInit{
   user!: any;
   isSeller?: boolean;
 
-  constructor(private transactionService: TransactionService, private localService: LocalService) {
+  constructor(private transactionService: TransactionService, private localService: LocalService, private title: Title) {
+    this.title.setTitle('Transactions | vijiPay')
   }
 
   ngOnInit(): void {

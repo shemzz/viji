@@ -2,7 +2,7 @@
     <div class="jumbotron">
         <h3 class="text-center">Disputes</h3>
     </div>
-    <a *ngFor="let dispute of disputes" [routerLink]="'/dispute/' + dispute.id" class="list-group-item bg-white p-3 rounded list-group-item-action mb-2">
+    <a *ngFor="let dispute of disputes" [routerLink]="'/dispute/' + dispute.transaction_id" class="list-group-item bg-white p-3 rounded list-group-item-action mb-2">
         <!-- Your transaction content here -->
         <div class="d-flex w-100 justify-content-between">
           <small class="mb-1"><span class="color-viji">Dispute No: </span> <strong class="h6"> {{dispute.id}}</strong></small>

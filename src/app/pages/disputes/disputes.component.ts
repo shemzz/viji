@@ -4,6 +4,7 @@ import { TransactionService } from 'src/app/services/transaction.service';
 import { UserService } from 'src/app/services/user.service';
 import { RouterModule } from '@angular/router';
 import { LocalService } from 'src/app/services/local.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-disputes',
@@ -15,7 +16,9 @@ import { LocalService } from 'src/app/services/local.service';
 export class DisputesComponent implements OnInit {
   user: any;
   disputes: any = [];
-  constructor(private transactionService: TransactionService, private localService: LocalService) { }
+  constructor(private transactionService: TransactionService, private localService: LocalService, private title: Title) {
+    this.title.setTitle('My Disputes | vijiPay')
+   }
   
   ngOnInit(): void {
     this.user = this.localService.getLoggedInUser()

@@ -114,7 +114,9 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn bg-danger" (click)="reportTransaction()">Report Transaction</button>
+        <button [disabled]="selectedDisputes.length <= 0" type="button" class="btn bg-danger" (click)="reportTransaction()">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+          Report Transaction</button>
       </div>
     </ng-template>
   </div>

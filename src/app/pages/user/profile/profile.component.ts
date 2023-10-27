@@ -8,6 +8,7 @@ import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { EventBusService } from 'src/app/services/event-bus.service';
 import { LocalService } from 'src/app/services/local.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-profile',
@@ -33,7 +34,9 @@ export class ProfileComponent implements OnInit {
 
   eventBusSub?: Subscription;
   
-  constructor(private userService: UserService, private router: Router, private toastr: ToastrService, private eventBusService: EventBusService, public localService: LocalService) { }
+  constructor(private userService: UserService, private toastr: ToastrService, private eventBusService: EventBusService, public localService: LocalService, private title: Title) {
+    this.title.setTitle('Profile | vijiPay')
+   }
 
   ngOnInit(): void {
     this.user = this.localService.getLoggedInUser();

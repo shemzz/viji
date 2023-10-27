@@ -5,6 +5,7 @@ import { UserService } from 'src/app/services/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
 import { LocalService } from 'src/app/services/local.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-login',
@@ -14,23 +15,27 @@ import { LocalService } from 'src/app/services/local.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  loading: boolean = false;
   email: string = '';
   password: string = '';
   loggedIn: boolean = false;
 
-  constructor(private userService: UserService, private toastr: ToastrService, private router: Router, private localService: LocalService) { }
+  constructor(private userService: UserService, private toastr: ToastrService, private router: Router, private localService: LocalService, private title: Title) {
+    this.title.setTitle('Login to your account')
+   }
   
   ngOnInit(): void {
     this.localService.isLoggedIn().subscribe(value => {
       this.loggedIn = value;
     })
-    console.log(this.loggedIn)
+
     if (this.loggedIn === true) {
         this.router.navigate(['/transactions'])
       }
   }
 
   login() {
+    this.loading = true;
     const user = {
       email: this.email,
       password: this.password
@@ -42,7 +47,10 @@ export class LoginComponent implements OnInit {
       error: err => {
         this.toastr.error(err.error.message, "Error")
       },
-      complete: () => this.router.navigate(['/transactions'])
+      complete: () => {
+        this.loading = false;
+        this.router.navigate(['/transactions'])
+      }
     })
   }
 }
