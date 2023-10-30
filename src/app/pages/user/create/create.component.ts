@@ -99,13 +99,13 @@ export class CreateComponent implements OnInit{
       } else if (this.negotiatedPrice < 10000) {
         return 500;
       } else {
-        return Math.ceil(this.negotiatedPrice * 0.05)
+        return Math.round(this.negotiatedPrice * 0.05)
       }
     } else {
       if (this.product.advert.price.value >= 100000) {
         return 5000;
       } else {
-        return Math.ceil(this.product.advert.price.value * 0.05)
+        return Math.round(this.product.advert.price.value * 0.05)
       }
     }
 
@@ -127,20 +127,17 @@ export class CreateComponent implements OnInit{
     if (this.user != undefined) {
       this.transactionService.createEscrow(this.product, transaction).subscribe({
         next: data => {
-          this.isLoading = false;
-          console.log(data.message)
           this.txId = data.id;
           this.toastr.success(data.message, 'Success')
         },
         error: err => {
-          this.isLoading = false;
           console.error(err)
           this.toastr.error(err.error.message, 'Error')
         },
         complete: () => {
           setTimeout(() => {
             this.router.navigate([`/transaction/${this.txId}`]);
-          }, 2000);
+          }, 1000);
         }
       })
     } else {

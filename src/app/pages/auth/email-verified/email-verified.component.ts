@@ -18,9 +18,11 @@ export class EmailVerifiedComponent {
 
 constructor(private route: ActivatedRoute, private userService: UserService, private router: Router){}
   ngOnInit(): void {
+
     this.route.queryParams.subscribe(params => {
       this.code = params['code'];
     });
+
     this.confirmEmailAddress();
   }
 
@@ -37,11 +39,11 @@ constructor(private route: ActivatedRoute, private userService: UserService, pri
         this.loading = false;
         this.message = err.error.message
       },
-      complete: () => {
-        setTimeout(() => {
-          this.router.navigate(['auth/login']);
-        }, 1000);
-      }
+      // complete: () => {
+      //   setTimeout(() => {
+      //     this.router.navigate(['auth/login']);
+      //   }, 1000);
+      // }
     })
   }
 }

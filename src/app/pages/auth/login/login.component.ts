@@ -45,7 +45,8 @@ export class LoginComponent implements OnInit {
         this.localService.saveUser(res);
       },
       error: err => {
-        this.toastr.error(err.error.message, "Error")
+        console.log(err.error?.message)
+        this.toastr.error(err.error?.message, "Error")
       },
       complete: () => {
         this.loading = false;

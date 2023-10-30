@@ -26,17 +26,17 @@ export class UserService {
   login(data: any): Observable<any>{
     return this.http.post(`${url}signin`, data, httpOptions)
   }
-  forgotPassword(ref: string): Observable<any>{
-    return this.http.post(`${url}paymentstatus`, {ref: ref}, httpOptions)
+  forgotPassword(email: string): Observable<any>{
+    return this.http.post(`${url}forgot-password`, {email:email}, httpOptions)
   }
   sendVerificationCode(email: string): Observable<any>{
     return this.http.post(`${url}sendverificationcode`, {email: email}, httpOptions)
   }
   confirmEmailAddress(code: string): Observable<any>{
-    return this.http.get(`${url}confirmemail/${code}`, httpOptions)
+    return this.http.post(`${url}confirmemail`, {token: code}, httpOptions)
   }
-  resetPassword(ref: string): Observable<any>{
-    return this.http.post(`${url}paymentstatus`, {ref: ref}, httpOptions)
+  resetPassword(data: any): Observable<any>{
+    return this.http.post(`${url}reset-password`, data, httpOptions)
   }
 
   getUser(id: number): Observable<any>{

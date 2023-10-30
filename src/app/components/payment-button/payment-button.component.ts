@@ -6,6 +6,7 @@ import { Angular4PaystackModule } from 'angular4-paystack';
 import { HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { LocalService } from 'src/app/services/local.service';
 
 @Component({
   selector: 'app-payment-button',
@@ -25,31 +26,28 @@ export class PaymentButtonComponent  implements OnInit{
   transactionId!: number;
   reference!: any;
   metadata: {} = {};
-  user: any = {
-    name: 'Shemang',
-    email: 'david@gmail.com',
-    phone: '090123456'
-  }
+  user: any;
 
-
-constructor(private paymentService: PaymentService, private router: Router, private toastr: ToastrService){}
+  constructor(private paymentService: PaymentService, private router: Router, private toastr: ToastrService, private localService: LocalService){}
   
   ngOnInit(): void {
-    this.amt = parseInt(this.amount + '00')
+    this.user = this.localService.getLoggedInUser()
+    const tot = Math.round(this.amount) + '00'
+    this.amt = parseInt(tot)
     this.saveTransaction();
   }
   
   saveTransaction() {
     // generate Reference
     const createReference = this.paymentService.createPaymentReference()
-    
+    this.reference = createReference
     const data = {
       reference: createReference,
-      totalCollected: this.amt,
+      totalCollected: this.amount,
       amount: this.transaction?.transaction_details.amount,
       fee: this.transaction.transaction_details.escrow_fee,
-      buyerId: 1,
-      sellerId: 2,
+      buyerId: this.user?.id,
+      sellerId: this.transaction.product.seller.phone,
       transactionId: this.transaction.id,
       success: false
     }
@@ -58,6 +56,7 @@ constructor(private paymentService: PaymentService, private router: Router, priv
     this.paymentService.savePaymentToDB(data).subscribe({
       next: res => {
         console.log(res)
+        console.log('res ref', res)
         this.reference = res.ref ? res.ref : createReference;
         console.log(this.reference)
       },
