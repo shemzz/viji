@@ -124,7 +124,6 @@ formatter = (bank: any) => bank.name;
 })
    }
   
-
   logout(): void {
     this.localService.clean();
     this.localService.setLoggedInStatus(false);
