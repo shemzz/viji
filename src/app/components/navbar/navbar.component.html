@@ -17,7 +17,13 @@
           <i class="fa-solid fa-user fa-xl"></i>
         </a>
         <a *ngIf="!loggedIn" routerLink="/auth/login" class="menu-icon">
-          <small> Login | Register</small>
+          <small>Login</small>
+         </a>
+
+          <small class="" *ngIf="!loggedIn">|</small>
+
+         <a *ngIf="!loggedIn" routerLink="/auth/register" class="menu-icon">
+          <small>Register</small>
          </a>
         <a routerLink="/create" class="btn btn-warning btn-sm">Create Escrow</a>
        </div>
