@@ -13,7 +13,8 @@ export class LocalService {
 
   constructor(private cookieService: CookieService) { }
   clean() {
-    this.cookieService.delete(user_key)  
+    this.cookieService.delete(user_key);
+    console.log('cookie deleted')
   }
 
   public saveUser(userData: any): void {
@@ -48,6 +49,7 @@ export class LocalService {
   }
 
   public setLoggedInStatus(value: boolean): void {
+    console.log('login status is now', value)
     this._userIsLoggedIn$.next(value)
   }
 

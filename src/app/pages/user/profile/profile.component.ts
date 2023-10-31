@@ -9,12 +9,13 @@ import { ToastrService } from 'ngx-toastr';
 import { EventBusService } from 'src/app/services/event-bus.service';
 import { LocalService } from 'src/app/services/local.service';
 import { Title } from '@angular/platform-browser';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
   imports: [CommonModule, RouterModule, FormsModule, NgbTypeaheadModule],
-  providers: [UserService, EventBusService],
+  providers: [UserService, EventBusService, CookieService],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
@@ -127,8 +128,6 @@ formatter = (bank: any) => bank.name;
   logout(): void {
     this.localService.clean();
     this.localService.setLoggedInStatus(false);
-    if (!this.localService.isLoggedIn) {
-      window.location.reload()
-    }
+    window.location.reload()
   }
 }
