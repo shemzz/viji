@@ -43,15 +43,14 @@ export class LoginComponent implements OnInit {
     this.userService.login(user).subscribe({
       next: res => {
         this.localService.saveUser(res);
+        this.loading = false;
       },
       error: err => {
         console.log(err.error?.message)
         this.toastr.error(err.error?.message, "Error")
-      },
-      complete: () => {
         this.loading = false;
-        this.router.navigate(['/transactions'])
-      }
+      },
+      complete: () => this.router.navigate(['/transactions'])
     })
   }
 }

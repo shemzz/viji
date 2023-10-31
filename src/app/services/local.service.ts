@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 const user_key = 'user';
-
+const url = environment.url
 @Injectable({
   providedIn: 'root'
 })
@@ -17,7 +18,7 @@ export class LocalService {
 
   public saveUser(userData: any): void {
     this.cookieService.delete(userData);
-    this.cookieService.set(user_key, JSON.stringify(userData), { expires: 1, domain: 'localhost', path: '/' })
+    this.cookieService.set(user_key, JSON.stringify(userData), { expires: 1, domain: url, path: '/' })
   }
 
   public getLoggedInUser(): any {
