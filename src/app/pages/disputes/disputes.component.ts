@@ -28,7 +28,6 @@ export class DisputesComponent implements OnInit {
   getDisputes(userId: number) {
     this.transactionService.getDisputesForUser(userId).subscribe({
       next: res => {
-        console.log(res)
         this.disputes = res
       },
       error: err => {

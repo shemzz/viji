@@ -98,12 +98,17 @@ viewTransaction() {
     this.transactionService.updateTransaction(status, this.transaction.id).subscribe({
       next: res => {
         this.transaction = res.transaction;
-        console.log(this.transaction)
+        console.log(this.transaction);
+        this.toastr.success('Transaction completed successfully', 'Success!')
       },
       error: err => {
         console.log(err)
+        this.toastr.error(err.error.message, 'Error!')
       },
-      complete: () => this.modalService.dismissAll()
+      complete: () => {
+        this.modalService.dismissAll();
+        this.router.navigate(['transactions'])
+      }
     })
   }
 

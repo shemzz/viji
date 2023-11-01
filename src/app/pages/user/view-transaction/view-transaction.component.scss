@@ -25,3 +25,34 @@ div {
 .form-switch{
     margin-bottom: 5px;
 }
+
+@keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.15);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+.accept-terms{
+    width: 32px;
+    height: 32px;
+    border: 2px solid green;
+    box-shadow: rgba(18, 28, 45, 0.2) 0px 4px 16px 0px;
+    animation: pulse 1s infinite;
+}
+
+.accept-terms:checked {
+background-color: #00b53f;
+color: #fff;
+animation: none;
+width: 20px;
+height: 20px;
+border: none;
+}
+  
+  

@@ -141,9 +141,11 @@ formatter = (bank: any) => bank.name;
 })
    }
   
-  logout(): void {
+  logout() {
     this.localService.clean();
     this.localService.setLoggedInStatus(false);
-    window.location.reload()
+    setTimeout(() => {
+      window.location.reload()
+    }, 1500);
   }
 }

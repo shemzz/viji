@@ -31,7 +31,6 @@ export class ValidatePaymentComponent {
     // Get the tx_ref parameter from the query params
     this.route.queryParams.subscribe(params => {
       const txRef = params['ref'];
-      console.log(txRef)
       if (txRef) {
         // Send the tx_ref to the backend for validation
         this.sendTxRefToBackend(txRef);
@@ -44,16 +43,16 @@ export class ValidatePaymentComponent {
     this.paymentService.validatePaymentStatus(txRef).subscribe({
       next: res => {
         this.payment = res.data;
-        console.log(this.payment)
         if (this.payment.status === 'success') {
           this.message = res.message;
           // update the transaction
-          this.updateTransactionStatus(res.id)
+          this.updateTransactionStatus(res.data.id)
         } else {
           this.message = 'Your Payment is still pending. Refresh this page after two minutes'
         }
       },
       error: err => {
+        this.message = err.error.message;
         console.log(err)
       }
     });

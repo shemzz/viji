@@ -3,8 +3,8 @@
         <h3 class="text-center heading">{{dispute?.title}}</h3>
         <p class="text-center"><span class="badge rounded-pill text-bg-danger">opened - {{dispute?.createdAt |date: 'medium'}}</span> </p>
     </div>
-    <h6 class="text-center"><strong>Buyer:</strong> {{buyer.first_name}} {{buyer.last_name}}, <small><a [href]="'tel:'+buyer.phone">{{buyer.phone}}</a></small></h6>
-    <h6 class="text-center"><strong>Seller:</strong> {{seller.first_name}} {{seller.last_name}}, <small><a [href]="'tel:'+seller.phone">{{seller.phone}}</a></small></h6>
+    <h6 class="text-center"><strong>Buyer:</strong> {{buyer.first_name}} {{buyer.last_name}}, <small><a [href]="'tel:'+buyer.phone">{{buyer.phone | phoneNoTransform}}</a></small></h6>
+    <h6 class="text-center"><strong>Seller:</strong> {{seller.first_name}} {{seller.last_name}}, <small><a [href]="'tel:'+seller.phone">{{seller.phone | phoneNoTransform}}</a></small></h6>
    
     <div class="container bg-white rounded">
         <h5 class="text-center text-secondary pt-3">Reasons</h5>
@@ -16,7 +16,7 @@
           <h6 class="text-center">Decision:</h6>
           <h4 class="text-center color-viji fw-bold">{{dispute?.decision ? dispute?.decision : 'Not decided yet!'}} </h4>
 
-          <p class="text-center"><span class="badge rounded-pill text-bg-info">closed - {{dispute?.updatedAt |date: 'medium'}}</span> </p>
+          <p class="text-center" *ngIf="dispute.status === 'closed'"><span class="badge rounded-pill text-bg-info">closed - {{dispute?.updatedAt |date: 'medium'}}</span> </p>
         </div>
         <div *ngIf="!user.isSeller && dispute?.status === 'open'" class="d-flex justify-content-center">
             <button (click)="endDispute()" class="btn btn-primary">End this Dispute</button>

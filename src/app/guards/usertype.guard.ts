@@ -10,10 +10,8 @@ export const userTypeGuard: CanActivateFn = (route, state) => {
 
   const user = localService.getLoggedInUser()
   if (user && user.isSeller === false) {
-      console.log('not a seller')
     return true;
     } 
-    console.log('is a seller')
     return router.createUrlTree([`seller-transaction/${transactionId}`]);
 
 };

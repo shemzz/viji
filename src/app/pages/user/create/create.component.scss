@@ -20,3 +20,14 @@ text-align: center;
 div {
     margin-bottom: 5px;
 }
+
+
+input[type='checkbox']{
+    width: 32px;
+    height: 32px;
+    border: 2px solid green;
+}
+input[type='checkbox']:checked {
+background-color: #00b53f;
+color: #fff;
+}
