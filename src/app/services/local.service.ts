@@ -21,6 +21,12 @@ export class LocalService {
     this.cookieService.delete(userData);
     this.cookieService.set(user_key, JSON.stringify(userData), { expires: 1, domain: url, path: '/' })
   }
+  public updateUserType(type: boolean) {
+    const loggedUser = this.cookieService.get(user_key);
+    const user = JSON.parse(loggedUser);
+    user.isSeller = type;
+    this.cookieService.set(user_key, JSON.stringify(user), { expires: 1, domain: url, path: '/' })
+  }
 
   public getLoggedInUser(): any {
     const loggedUser = this.cookieService.get(user_key);
@@ -30,6 +36,9 @@ export class LocalService {
   }
 
   formatPhoneNumber(phoneNumber: string): string {
+    if (!phoneNumber) {
+      return ''
+    }
     // Remove leading zero and ensure it's at least 11 characters long
     if (phoneNumber.length === 11 && phoneNumber.startsWith('0')) {
       phoneNumber = phoneNumber.slice(1);

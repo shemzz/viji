@@ -6,13 +6,14 @@ import { LocalService } from '../services/local.service';
 export const userTypeGuard: CanActivateFn = (route, state) => {
   const localService: LocalService = inject(LocalService);
   const router: Router = inject(Router);
+  const transactionId = route.params['id'];
 
   const user = localService.getLoggedInUser()
-    if (user && user.isSeller === false) {
+  if (user && user.isSeller === false) {
       console.log('not a seller')
-      return true;
+    return true;
     } 
     console.log('is a seller')
-    return router.createUrlTree(['seller-transaction/:id']);
+    return router.createUrlTree([`seller-transaction/${transactionId}`]);
 
 };

@@ -42,7 +42,7 @@
                   <h6>This product is at <strong>{{transaction.product.advert.region_text}}</strong> and will be delivered to you at <strong>{{transaction.transaction_details.delivery_region}}</strong> and delivery cost will be paid by {{transaction.transaction_details.who_pays_for_delivery}}</h6>
                 </div>
 
-                <div *ngIf="transaction.status === 'created'" class="col-12">
+                <div *ngIf="transaction.status === 'created' && loggedInUserIsBuyer()" class="col-12">
                     <p>Terms</p>
                     <div class="form-check item">
                         <input class="form-check-input m-2" type="checkbox" id="gridCheck" [(ngModel)]="agreeToTermsOfUse">
@@ -53,14 +53,19 @@
                     <h6 class="terms">When you pay into our Secure holding Escrow account, we will not release the funds to the seller until you have received the item as described <br/> <small class="text-info"><a href="/terms">Read the full terms of use here</a></small></h6>
                   </div>
   
-                <app-payment-button *ngIf="transaction.status === 'created'" [amount]="amountToPay()" [transaction]="transaction" [terms]="agreeToTermsOfUse" ></app-payment-button>
+                <app-payment-button *ngIf="transaction.status === 'created' && loggedInUserIsBuyer()" [amount]="amountToPay()" [transaction]="transaction" [terms]="agreeToTermsOfUse" ></app-payment-button>
 
                 <div *ngIf="transaction.status === 'started' || transaction.status === 'pending' || transaction.status === 'dispute'" class="item flex-column">
-                  <button *ngIf="transaction.status !== 'dispute'"  class="btn btn-success my-2 btn-lg" (click)="open(content)">I have received my Product</button>
+                  <button *ngIf="transaction.status !== 'dispute' && loggedInUserIsBuyer()"  class="btn btn-success my-2 btn-lg" (click)="open(content)">I have received my Product</button>
 
-                  <a [routerLink]="['/dispute/'+ transaction.id]"  *ngIf="transaction.status === 'dispute'" class="btn btn-secondary btn-sm">View Dispute Decision</a>
+                  <a [routerLink]="['/dispute/'+ transaction.id]"  *ngIf="transaction.status === 'dispute' && loggedInUserIsBuyer()" class="btn btn-secondary btn-sm">View Dispute Decision</a>
 
-                  <button *ngIf="transaction.status !== 'dispute'" class="btn btn-danger btn-sm" (click)="open(dispute)">Report this Transaction</button>
+                  <button *ngIf="transaction.status !== 'dispute' && loggedInUserIsBuyer()" class="btn btn-danger btn-sm" (click)="open(dispute)">Report this Transaction</button>
+                </div>
+                <div *ngIf="transaction.status !== 'completed' && !loggedInUserIsBuyer()" class="col-12">
+                    
+                  <h6 class="mt-2">You are participating as a seller in this transaction. switch to a </h6>
+                  <button class="btn btn-sm viji-gradient d-block mx-auto text-white" (click)="switchToSeller(true)">seller account</button>
                 </div>
 
                   <p *ngIf="transaction.status === 'completed'" class="my-5">This Transaction is Marked Complete <br /> 

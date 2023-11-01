@@ -12,6 +12,8 @@ import { ReasonInterface } from 'src/app/interface/reason.interface';
 import { ToastrService } from 'ngx-toastr';
 import { PhoneNumberTransform } from 'src/app/pipes/phoneNumberTransform.pipe';
 import { Title } from '@angular/platform-browser';
+import { LocalService } from 'src/app/services/local.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-view-transaction',
@@ -38,7 +40,7 @@ agreeToTermsOfUse: boolean = false;
   }
 
 
-  constructor(private route: ActivatedRoute, private transactionService: TransactionService, private modalService: NgbModal, private toastr: ToastrService, private router: Router, private title: Title) {
+  constructor(private route: ActivatedRoute, private transactionService: TransactionService, private modalService: NgbModal, private toastr: ToastrService, private router: Router, private title: Title, private localService: LocalService, private userService: UserService) {
     this.title.setTitle('Transaction | vijiPay')
 }
 
@@ -53,6 +55,13 @@ extractIdFromRoute() {
   });
 }
   
+  loggedInUserIsBuyer() {
+    const user = this.localService.getLoggedInUser();
+    if (user.id === this.transaction.transaction_details.buyer_id) {
+      return true
+    }
+    return false;
+}
 viewTransaction() {
   this.transactionService.getTransactionById(this.transactionId).subscribe({
     next: data => {
@@ -64,6 +73,21 @@ viewTransaction() {
     }
   })
 }
+  switchToSeller(type:boolean) {
+    const user = this.localService.getLoggedInUser();
+    this.userService.updateUser({ isSeller: type }, user.id).subscribe({
+      next: res => {
+        this.toastr.success(res.message, 'Done!');
+        this.localService.updateUserType(type);
+      },
+      error: err => {
+        this.toastr.error(err.error.message, 'Error!');
+      },
+      complete: () => window.location.reload()
+    }
+    )
+
+  }
   
   amountToPay() {
     return this.transaction?.transaction_details.amount + this.transaction.transaction_details.escrow_fee

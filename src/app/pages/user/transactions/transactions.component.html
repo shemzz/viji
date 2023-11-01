@@ -9,7 +9,7 @@
         <ng-template ngbNavContent>
           <div class="list-group">
             <ng-container *ngIf="activeTransactions?.length > 0; else noActive">
-              <a *ngFor="let transaction of activeTransactions" [routerLink]="isSeller ? '/seller-transaction/' + transaction.id : '/transaction/' + transaction.id" class="list-group-item list-group-item-action mb-2">
+              <a *ngFor="let transaction of activeTransactions" [routerLink]="'/transaction/' + transaction.id" class="list-group-item list-group-item-action mb-2">
                 <!-- Your transaction content here -->
                 <div class="d-flex w-100 justify-content-between">
                   <h5 class="mb-1">{{transaction.transaction_details.amount | currency: '&#8358;' }}</h5>
@@ -31,7 +31,7 @@
         <ng-template ngbNavContent let-active>
           <div class="list-group">
             <ng-container *ngIf="completedTransactions?.length > 0; else noComplete">
-              <a *ngFor="let transaction of completedTransactions" [routerLink]="isSeller ? '/seller-transaction/' + transaction.id : '/transaction/' + transaction.id" class="list-group-item list-group-item-action mb-2">
+              <a *ngFor="let transaction of completedTransactions" [routerLink]="'/transaction/' + transaction.id" class="list-group-item list-group-item-action mb-2">
                 <!-- Your transaction content here -->
                 <div class="d-flex w-100 justify-content-between">
                   <h5 class="mb-1">{{transaction.transaction_details.amount | currency: '&#8358;' }}</h5>
@@ -52,7 +52,7 @@
   <ng-template ngbNavContent let-active>
     <div class="list-group">
       <ng-container *ngIf="disputedTransactions?.length > 0; else noDispute">
-        <a *ngFor="let transaction of disputedTransactions" [routerLink]="isSeller ? '/seller-transaction/' + transaction.id : '/transaction/' + transaction.id" class="list-group-item list-group-item-action mb-2">
+        <a *ngFor="let transaction of disputedTransactions" [routerLink]="'/transaction/' + transaction.id" class="list-group-item list-group-item-action mb-2">
           <!-- Your transaction content here -->
           <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1">{{transaction.transaction_details.amount | currency: '&#8358;' }}</h5>

@@ -44,13 +44,11 @@ export class RegisterComponent {
     const formattedPhone = this.formatPhone(this.user.phone)
     this.loading = true
     this.user.phone = formattedPhone;
-    console.table(this.user)
     this.userService.register(this.user).subscribe({
       next: res => {
         this.toastr.success(res.message, 'Success', { progressBar: true });
       },
       error: err => {
-        console.log(err.error.message)
         this.toastr.error(err.error.message, 'Error')
         this.loading = false
       },

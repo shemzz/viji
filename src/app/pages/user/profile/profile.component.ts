@@ -68,6 +68,22 @@ export class ProfileComponent implements OnInit {
     })
   }
 
+  switchToSeller(type:boolean) {
+    const user = this.localService.getLoggedInUser();
+    this.userService.updateUser({ isSeller: type }, user.id).subscribe({
+      next: res => {
+        this.toastr.success(res.message, 'Done!');
+        this.localService.updateUserType(type);
+      },
+      error: err => {
+        this.toastr.error(err.error.message, 'Error!');
+      },
+      complete: () => window.location.reload()
+    }
+    )
+
+  }
+
   getBanks() {
     this.userService.getBanks()
     .subscribe({

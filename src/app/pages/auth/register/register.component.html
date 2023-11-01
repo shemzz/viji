@@ -12,8 +12,8 @@
                 <div class="row mb-3">
                   <div class="col-sm-10 offset-sm-1">
                     <div class="form-check form-switch">
-                      <input class="form-check-input " type="checkbox" role="switch" [ngClass]="user.isSeller ? 'bg-success' : ''" [(ngModel)]="user.isSeller" name="isSeller" (change)="CheckUserType($event)" id="gridCheck1">
-                        <label class="form-check-label small" for="gridCheck1">
+                      <input class="form-check-input " type="checkbox" role="switch" [ngClass]="user.isSeller ? 'bg-success' : ''" [(ngModel)]="user.isSeller" name="isSeller" (change)="CheckUserType($event)" id="isSeller">
+                        <label class="form-check-label small" for="isSeller">
                             Are you a Seller on Jiji? (<strong>{{user.isSeller ? 'YES' : 'NO'}})</strong>
                         </label>
                     </div>
@@ -40,10 +40,10 @@
                 <div class="row mb-3">
                   <div class="col-sm-10 offset-sm-1">
                     <div class="form-check">
-                        <label class="form-check-label small" for="gridCheck1">
+                        <label class="form-check-label small" for="agreeTerms">
                             I agree to the <a routerLink="/terms">terms and conditions</a>
                         </label>
-                        <input class="form-check-input" [ngClass]="acceptTerms ? 'bg-success' : ''" name="acceptTerms" [(ngModel)]="acceptTerms" (change)="onAcceptTerms($event)" type="checkbox" id="gridCheck1">
+                        <input class="form-check-input" [ngClass]="acceptTerms ? 'bg-success' : ''" name="acceptTerms" [(ngModel)]="acceptTerms" (change)="onAcceptTerms($event)" type="checkbox" id="agreeTerms">
                     </div>
                   </div>
                 </div>

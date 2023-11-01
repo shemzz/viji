@@ -55,10 +55,14 @@ export class CreateComponent implements OnInit{
         this.isLoading = false;
         this.message = data.message;
         this.product = data.product;
+        if (!this.product.seller.phone) {
+         this.product.seller.phone =  this.locaService.formatPhoneNumber(this.product.seller.phone)
+        }
+        console.log(this.product.seller.phone)
       },
       error: error => {
         this.isLoading = false;
-        console.error('There was an error!', error);
+        this.toastr.error(error.error.message, 'Error!')
       }
     });
   }
@@ -112,19 +116,21 @@ export class CreateComponent implements OnInit{
   }
 
   createEscrowTransaction() {
-    this.isLoading = true
-    const transaction = {
-      buyer_id: this.user.id,
-      produc_amount: this.product.advert.price.value,
-      amount: this.negotiatedPrice ? this.negotiatedPrice : this.product.advert.price.value,
-      escrow_fee: this.calculateEscrowFee(),
-      price_negotiated: this.negotiated,
-      require_delivery: this.requireDelivery,
-      who_pays_for_delivery: this.requireDelivery ? this.whoPaysForDelivery : '',
-      delivery_region: this.deliveryRegion,
-    }
-
-    if (this.user != undefined) {
+    
+    if (!this.user) {
+      this.router.navigate(['auth/login']);
+    } else {
+      const transaction = {
+        buyer_id: this.user.id,
+        produc_amount: this.product.advert.price.value,
+        amount: this.negotiatedPrice ? this.negotiatedPrice : this.product.advert.price.value,
+        escrow_fee: this.calculateEscrowFee(),
+        price_negotiated: this.negotiated,
+        require_delivery: this.requireDelivery,
+        who_pays_for_delivery: this.requireDelivery ? this.whoPaysForDelivery : '',
+        delivery_region: this.deliveryRegion,
+      }
+      this.isLoading = true
       this.transactionService.createEscrow(this.product, transaction).subscribe({
         next: data => {
           this.txId = data.id;
@@ -140,9 +146,12 @@ export class CreateComponent implements OnInit{
           }, 1000);
         }
       })
-    } else {
-      this.router.navigate(['auth/login']);
-     }
+    }
+
+    // if (this.user != undefined) {
+    // } else {
+    //   this.router.navigate(['auth/login']);
+    //  }
     
     
     }

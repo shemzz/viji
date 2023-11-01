@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { authGuard } from './guards/auth.guard';
 import { userTypeGuard } from './guards/usertype.guard';
+import { loggedinGuard } from './guards/loggedin.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -15,10 +16,10 @@ const routes: Routes = [
   { path: 'transaction/:id/payment/validate', loadComponent: () => import('./pages/validate-payment/validate-payment.component').then(m => m.ValidatePaymentComponent), canActivate: [authGuard] },
   { path: 'disputes', loadComponent: () => import('./pages/disputes/disputes.component').then(m => m.DisputesComponent), canActivate: [authGuard] },
   { path: 'dispute/:id', loadComponent: () => import('./pages/dispute-detail/dispute-detail.component').then(m => m.DisputeDetailComponent), canActivate: [authGuard] },
-  { path: 'auth/forgot-password', loadComponent: () => import('./pages/auth/forgot-password/forgot-password.component').then(m => m.ForgotPasswordComponent) },
-  { path: 'auth/reset-password', loadComponent: () => import('./pages/auth/reset-password/reset-password.component').then(m => m.ResetPasswordComponent) },
-  { path: 'auth/login', loadComponent: () => import('./pages/auth/login/login.component').then(m => m.LoginComponent) },
-  { path: 'auth/register', loadComponent: () => import('./pages/auth/register/register.component').then(m => m.RegisterComponent) },
+  { path: 'auth/forgot-password', loadComponent: () => import('./pages/auth/forgot-password/forgot-password.component').then(m => m.ForgotPasswordComponent), canActivate:[loggedinGuard] },
+  { path: 'auth/reset-password', loadComponent: () => import('./pages/auth/reset-password/reset-password.component').then(m => m.ResetPasswordComponent), canActivate: [loggedinGuard] },
+  { path: 'auth/login', loadComponent: () => import('./pages/auth/login/login.component').then(m => m.LoginComponent), canActivate: [loggedinGuard] },
+  { path: 'auth/register', loadComponent: () => import('./pages/auth/register/register.component').then(m => m.RegisterComponent), canActivate: [loggedinGuard] },
   { path: 'auth/verify-email', loadComponent: () => import('./pages/auth/verify-email/verify-email.component').then(m => m.VerifyEmailComponent) },
   { path: 'auth/email-confirmation', loadComponent: () => import('./pages/auth/email-verified/email-verified.component').then(m => m.EmailVerifiedComponent) },
   {path: '**', loadComponent: ()=> import('./pages/not-found/not-found.component').then(m=>m.NotFoundComponent)},

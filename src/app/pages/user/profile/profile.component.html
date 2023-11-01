@@ -21,7 +21,7 @@
         {{ currentUser.phone }}
       </p>
       <p>
-        <strong>Phone:</strong>
+        <strong>Gender:</strong>
         {{ currentUser.gender }}
       </p>
       <p>
@@ -30,7 +30,7 @@
       </p>
       <p>
         <strong>Role:</strong>
-        {{currentUser.isSeller ? 'Seller' : 'Buyer'}}
+        {{currentUser.isSeller ? 'Seller' : 'Buyer'}} | <button class="btn btn-xs btn-info" (click)="switchToSeller(!currentUser.isSeller)">Switch to {{!currentUser.isSeller ? 'Seller' : 'Buyer'}}</button>
       </p>
       <p *ngIf="currentUser.address">
           <strong>Address:</strong>

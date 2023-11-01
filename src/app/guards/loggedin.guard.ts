@@ -1,19 +1,20 @@
 import { CanActivateFn, Router } from '@angular/router';
 import { LocalService } from '../services/local.service';
-import { inject } from '@angular/core';
 import { map } from 'rxjs';
+import { inject } from '@angular/core';
 
-export const authGuard: CanActivateFn = (route, state) => {
+export const loggedinGuard: CanActivateFn = (route, state) => {
   const localService: LocalService = inject(LocalService);
   const router: Router = inject(Router);
 
   return localService.isLoggedIn().pipe(
     map((status) => {
       if (status) {
-        return true;
+        router.createUrlTree(['transactions']);
+        return false;
       }
       
-      return router.createUrlTree(['auth/login']);
+      return true;
     })
   );
 };

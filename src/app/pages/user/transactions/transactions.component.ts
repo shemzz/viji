@@ -34,6 +34,7 @@ export class TransactionsComponent implements OnInit{
 
         this.transactionService.getUserTransactions(this.user.id).subscribe({
           next: res => {
+            console.log('is user is loaded')
             this.transactions = res.transactions;
             this.isSeller = res.isSeller;
             this.transactionsLoaded = true;
