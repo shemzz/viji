@@ -42,9 +42,6 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.user = this.localService.getLoggedInUser();
     this.getLoggedInUser(this.user.id);
-    this.eventBusSub = this.eventBusService.on('logout', () => {
-      this.logout();
-    })
   }
   
   toggleEditMode() {
@@ -142,10 +139,14 @@ formatter = (bank: any) => bank.name;
    }
   
   logout() {
-    this.localService.clean();
+    const user = this.localService.getLoggedInUser()
+    console.log('user is :', user)
+    this.localService.clean()
+    console.log('user is :', user)
     this.localService.setLoggedInStatus(false);
+
     setTimeout(() => {
-      window.location.reload()
+      window.location.pathname = 'auth/login'
     }, 1500);
   }
 }

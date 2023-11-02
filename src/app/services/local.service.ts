@@ -14,6 +14,7 @@ export class LocalService {
   constructor(private cookieService: CookieService) { }
   clean() {
     this.cookieService.delete(user_key);
+    document.cookie = `${user_key} = ; expires=Thu, 1 jan 1990 12:00:00 UTC; path=/`;
     console.log('cookie deleted')
   }
 
