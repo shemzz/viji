@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { UserInterface } from '../interface/user.interface';
+import { LocalService } from './local.service';
 
 
 const url = environment.apiUrl;
@@ -18,7 +19,7 @@ interface LoggedInUser {
 })
 export class UserService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private localService: LocalService) { }
 
   register(data: UserInterface): Observable<any> {
     return this.http.post(`${url}signup`, data, httpOptions)
@@ -62,8 +63,8 @@ export class UserService {
     return this.http.post(`${url}logout`, {}, httpOptions)
   }
 
-  refreshToken() {
-    return this.http.post(`${url}refreshtoken`, { }, httpOptions);
+  refreshToken(token: string) {
+    return this.http.post(`${url}refreshtoken`, { refreshToken: token}, httpOptions);
   }
 
 }

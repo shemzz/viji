@@ -42,6 +42,7 @@ export class DisputeDetailComponent implements OnInit {
   getDispute(id: number) {
     this.transactionService.getDisputeById(id).subscribe({
       next: res => {
+        console.log(res)
         this.dispute = res.dispute;
         this.buyer = res.buyer;
         this.seller = res.seller

@@ -66,9 +66,9 @@ viewTransaction() {
   this.transactionService.getTransactionById(this.transactionId).subscribe({
     next: data => {
       this.transaction = data.transaction
-      console.log(data)
     },
     error: err => {
+      this.toastr.error(err.error.message, 'Error!')
       console.log(err)
     }
   })

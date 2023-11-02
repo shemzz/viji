@@ -11,7 +11,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 import { httpInterceptorProviders } from './helpers/http.interceptor';
-import { authInterceptorProviders } from './helpers/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -35,7 +34,7 @@ import { authInterceptorProviders } from './helpers/auth.interceptor';
     BrowserAnimationsModule
 
   ],
-  providers: [ToastrService, CookieService, httpInterceptorProviders, authInterceptorProviders],
+  providers: [ToastrService, CookieService, httpInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

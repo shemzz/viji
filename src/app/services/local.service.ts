@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { jwtDecode } from 'jwt-decode';
 
-const user_key = 'user';
+const user_key = 'koded';
 const url = environment.url
 @Injectable({
   providedIn: 'root'
@@ -15,21 +16,37 @@ export class LocalService {
   clean() {
     this.cookieService.delete(user_key);
     document.cookie = `${user_key} = ; expires=Thu, 1 jan 1990 12:00:00 UTC; path=/`;
-    console.log('cookie deleted')
+    localStorage.clear()
   }
 
   public saveUser(userData: any): void {
-    this.cookieService.delete(userData);
-    this.cookieService.set(user_key, JSON.stringify(userData), { expires: 1, domain: url, path: '/' })
+    const token = userData.accessToken;
+    this.cookieService.delete(user_key);
+    localStorage.removeItem(user_key);
+    this.cookieService.set(user_key, JSON.stringify({ token: token }), { domain: url, path: '/' });
+    delete userData.accessToken;
+    localStorage.setItem(user_key, JSON.stringify(userData))
   }
+  public saveAccessToken(token: string): void {
+    this.cookieService.delete(user_key);
+    this.cookieService.set(user_key, JSON.stringify({ token: token }), { domain: url, path: '/' });
+  }
+
   public updateUserType(type: boolean) {
-    const loggedUser = this.cookieService.get(user_key);
-    const user = JSON.parse(loggedUser);
+    const loggedUser = localStorage.getItem(user_key);
+    if (loggedUser) {
+      const user = JSON.parse(loggedUser);
     user.isSeller = type;
-    this.cookieService.set(user_key, JSON.stringify(user), { expires: 1, domain: url, path: '/' })
+   }
   }
 
   public getLoggedInUser(): any {
+    const loggedUser = localStorage.getItem(user_key);
+    if (loggedUser) {
+      return JSON.parse(loggedUser);
+    }
+  }
+  public getaccessToken(): any {
     const loggedUser = this.cookieService.get(user_key);
     if (loggedUser) {
       return JSON.parse(loggedUser);
