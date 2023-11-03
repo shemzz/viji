@@ -43,6 +43,7 @@ export class LoginComponent implements OnInit {
     this.userService.login(user).subscribe({
       next: res => {
         this.localService.saveUser(res);
+        this.localService.setLoggedInStatus(true);
         this.loading = false;
       },
       error: err => {

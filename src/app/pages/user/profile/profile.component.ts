@@ -139,14 +139,10 @@ formatter = (bank: any) => bank.name;
    }
   
   logout() {
-    const user = this.localService.getLoggedInUser()
-    console.log('user is :', user)
     this.localService.clean()
-    console.log('user is :', user)
     this.localService.setLoggedInStatus(false);
-
     setTimeout(() => {
-      window.location.pathname = 'auth/login'
-    }, 1500);
+      window.location.reload();
+    }, 1000);
   }
 }
