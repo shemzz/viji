@@ -44,6 +44,9 @@ export class LocalService {
     const loggedUser = localStorage.getItem(user_key);
     if (loggedUser) {
       return JSON.parse(loggedUser);
+    } else {
+      this.clean();
+      window.location.reload()
     }
   }
   public getaccessToken(): any {
