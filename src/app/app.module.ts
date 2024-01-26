@@ -23,7 +23,7 @@ import { httpInterceptorProviders } from './helpers/http.interceptor';
     NgbAlertModule,
     HttpClientModule,
     NavbarComponent,
-    Angular4PaystackModule.forRoot('pk_test_d9cdc81c492f1413e172216d837d56a3a423b701'),
+    Angular4PaystackModule.forRoot('pk_live_91faab1c2c40b9f3747b05238f897e995eda84f4'),
     ToastrModule.forRoot({
       timeOut: 3000,
       positionClass: 'toast-bottom-full-width',
