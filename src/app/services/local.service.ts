@@ -45,8 +45,8 @@ export class LocalService {
     if (loggedUser) {
       return JSON.parse(loggedUser);
     } else {
-      this.clean();
-      window.location.reload()
+      // this.clean();
+      // window.location.reload()
     }
   }
   public getaccessToken(): any {
