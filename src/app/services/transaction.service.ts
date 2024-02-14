@@ -32,9 +32,12 @@ export class TransactionService {
     return this.http.get(`${url}transaction/${id}`, httpOptions);
   }
 
-  updateTransaction(status: {}, id: string): Observable<any> {
-    console.log(status, id)
+  updateTransaction(status: {}, id: number): Observable<any> {
     return this.http.put(`${url}update/${id}`, status, httpOptions);
+  }
+
+  deleteTransaction(id: number): Observable<any> {
+    return this.http.delete(`${url}delete/${id}`, httpOptions);
   }
 
   getUserTransactions(userId: number): Observable<any>{

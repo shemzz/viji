@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { LocalService } from 'src/app/services/local.service';
+import { TransactionService } from 'src/app/services/transaction.service';
 
 @Component({
   selector: 'app-payment-button',
@@ -28,7 +29,13 @@ export class PaymentButtonComponent  implements OnInit{
   metadata: {} = {};
   user: any;
 
-  constructor(private paymentService: PaymentService, private router: Router, private toastr: ToastrService, private localService: LocalService){}
+  constructor(
+    private paymentService: PaymentService, 
+    private router: Router, 
+    private toastr: ToastrService, 
+    private localService: LocalService, 
+    private transactionService: TransactionService
+    ){}
   
   ngOnInit(): void {
     this.user = this.localService.getLoggedInUser()
@@ -88,6 +95,19 @@ export class PaymentButtonComponent  implements OnInit{
   checkPaymentStatus(ref: string) {
     this.router.navigate([`/transaction/${this.transaction.id}/payment/validate`], { queryParams: { ref: ref } })
     
+    }
+
+    delete(){
+      this.transactionService.deleteTransaction(this.transaction.id).subscribe({
+        next: res => {
+          this.toastr.success(res.message, 'Success!')
+        },
+        error: err => {
+          console.log(err)
+          this.toastr.error(err.error.message, 'Error!')
+        },
+        complete: ()=> this.router.navigate(['/transactions'])
+      })
     }
   
 }

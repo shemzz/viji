@@ -46,7 +46,7 @@ export class ValidatePaymentComponent {
         if (this.payment.status === 'success') {
           this.message = res.message;
           // update the transaction
-          this.updateTransactionStatus(res.data.id)
+          this.updateTransactionStatus(res.id)
         } else {
           this.message = 'Your Payment is still pending. Refresh this page after two minutes'
         }
@@ -58,7 +58,7 @@ export class ValidatePaymentComponent {
     });
   }
   
-  updateTransactionStatus(id: string) {
+  updateTransactionStatus(id: number) {
     const data = {
       status: 'started'
     }
@@ -76,7 +76,7 @@ export class ValidatePaymentComponent {
     })
   }
 
-  goToTransaction(id: string) {
+  goToTransaction(id: number) {
     setTimeout(() => {
       this.router.navigate([`/transaction/${id}`])
     }, 2000);

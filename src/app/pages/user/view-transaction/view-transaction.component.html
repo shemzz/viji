@@ -52,11 +52,13 @@
                       </div>
                     <h6 class="terms">When you pay into our Secure holding Escrow account, we will not release the funds to the seller until you have received the item as described <br/> <small class="text-info"><a href="/terms">Read the full terms of use here</a></small></h6>
                   </div>
-  
+
                 <app-payment-button *ngIf="transaction.status === 'created' && loggedInUserIsBuyer()" [amount]="amountToPay()" [transaction]="transaction" [terms]="agreeToTermsOfUse" ></app-payment-button>
 
+                    <!-- confirm transaction -->
                 <div *ngIf="transaction.status === 'started' || transaction.status === 'pending' || transaction.status === 'dispute'" class="item flex-column">
                   <button *ngIf="transaction.status !== 'dispute' && loggedInUserIsBuyer()"  class="btn btn-success my-2 btn-lg" (click)="open(content)">I have received my Product</button>
+                    
 
                   <a [routerLink]="['/dispute/'+ transaction.id]"  *ngIf="transaction.status === 'dispute' && loggedInUserIsBuyer()" class="btn btn-secondary btn-sm">View Dispute Decision</a>
 
