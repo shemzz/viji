@@ -2,14 +2,14 @@
     <div class="container">
         <div *ngIf="!isProductFullyLoaded; else productLoaded" class="row">
            <div class="col-12 my-2 py-3 bg-viji">
-            <p class="fs-5 text-center">Seen a product you want to buy on <span class="font-monospace fw-bold">Jiji.ng</span>?</p>
+            <p class="fs-5 text-center">Seen something you want to buy on <span class="font-monospace fw-bold">Jiji.ng</span>?</p>
 
                 <form #getJijiProduct="ngForm" (ngSubmit)="getProductFromJiji()" class="d-flex flex-column align-items-center" role="search">
                     <input class="form-control me-2" [(ngModel)]="productUrl" name="productUrl" required type="search" placeholder="copy the link from jiji & paste here" aria-label="Search">
                     <div class="w-40 my-2">
                         <button class="btn btn-light" type="submit">
                           <span *ngIf="isLoading" class="spinner-border spinner-border-sm" aria-hidden="true"></span>
-                          <span role="status"> Get Product </span>
+                          <span role="status">Fetch Product fro Jiji </span>
                           </button>
                     </div>
                 </form>
@@ -17,7 +17,7 @@
             <div *ngIf="productFetched && (!product?.seller.phone || message)">
                 <p class="text-center"><span class="fw-bold fs-5">{{product?.advert.title}}</span></p>
                   <img [src]="product?.advert.images_data.thumbnails[0].url" [alt]="product?.advert.title" class="d-block rounded mx-auto" height="300px">
-                <p *ngIf="message?.two" class="text-center small text-danger">{{message.one}}. {{message.two}}</p>
+                <p *ngIf="message?.two" class="text-center small text-danger">{{message.one}}. <br/> {{message.two}}</p>
                 <p *ngIf="message?.three" class="text-center small text-secondary">{{message.three}}</p>
                 <form *ngIf="message?.three" #sellerPhoneNumber="ngForm" (ngSubmit)="updateSellerPhone()" class="d-flex flex-column align-items-center">
                   <input class="form-control me-2 phone_number w-50" (input)="checkPhoneFormat()" [(ngModel)]="sellerPhone" name="sellerPhone" required type="phone" placeholder="enter seller's phone no." aria-label="Search">
